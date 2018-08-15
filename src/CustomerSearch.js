@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-
-import { Table, Input } from 'antd'
-
-const Search = Input.Search
+import { Table } from 'antd'
 
 class CustomerSearch extends Component {
   state = {

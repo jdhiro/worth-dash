@@ -18,10 +18,13 @@ class Login extends Component {
     const urlParams = new URLSearchParams(Object.entries(params))
 
     try {
-      let response = await fetch('http://0.0.0.0:8081/auth/login?' + urlParams, {method: 'POST'})
+      let response = await fetch('http://0.0.0.0:8081/auth/login?' + urlParams, {
+        method: 'POST'
+      })
       if (response.ok) {
         let json = await response.json()
         sessionStorage.setItem('token', json.token)
+        this.props.history.push('/customer-search')
       }
     } catch (err) {
       console.log(err)

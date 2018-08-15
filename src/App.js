@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Login from './Login'
 import CustomerSearch from './CustomerSearch'
 import CustomerDetail from './CustomerDetail'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { Route, Link } from 'react-router-dom'
 import { Layout, Menu } from 'antd'
 import './App.css';
 
@@ -11,13 +11,13 @@ const { Header, Content } = Layout
 class App extends Component {
   render() {
     return (
-      <Layout className="layout">
+      <Layout className='layout'>
         <Header>
-          <div className="logo" />
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} style={{ lineHeight: '64px' }} >
-            <Menu.Item key="1"><Link to='/customer-search'>Customers</Link></Menu.Item>
-            <Menu.Item key="2">Cards</Menu.Item>
-            <Menu.Item key="3"><Link to='/transactions'>Transactions</Link></Menu.Item>
+          <div className='logo' />
+          <Menu theme='dark' mode='horizontal' defaultSelectedKeys={['1']} style={{ lineHeight: '64px' }} >
+            <Menu.Item key='1'><Link to='/customer-search'>Customers</Link></Menu.Item>
+            <Menu.Item key='2'>Cards</Menu.Item>
+            <Menu.Item key='3'><Link to='/transactions'>Transactions</Link></Menu.Item>
           </Menu>
         </Header>
         <Content style={{ padding: '50px' }}>
@@ -30,4 +30,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App
