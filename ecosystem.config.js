@@ -19,6 +19,15 @@ module.exports = {
       repo: 'git@github.com:jdhiro/worth-dash.git',
       path: '/var/pm2-deploy/worth-dash',
       'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production'
+    },
+    aws : {
+      key: '../hiro-keys/aws.pem',
+      user: 'ubuntu',
+      host: '54.186.150.36',
+      ref: 'origin/master',
+      repo: 'git@github.com:jdhiro/worth-dash.git',
+      path: '/var/pm2-deploy/worth-dash',
+      'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production'
     }
   }
 }
