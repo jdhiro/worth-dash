@@ -23,7 +23,7 @@ module.exports = {
     aws : {
       key: '../hiro-keys/aws.pem',
       user: 'ubuntu',
-      host: '54.186.150.36',
+      host: '35.163.48.219',
       ref: 'origin/master',
       repo: 'git@github.com:jdhiro/worth-dash.git',
       path: '/var/pm2-deploy/worth-dash',
