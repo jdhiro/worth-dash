@@ -1,37 +1,33 @@
 
 const baseUrl = 'http://0.0.0.0:8081'
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1Y2wiLCJpYXQiOjE1MzMwMTg2MjB9.JpbwrmXx3YWD2bwmdc2pa3vf3X-vDkBzsQhqw55yUco'
+const token = sessionStorage.getItem('token')
+const headers = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json; charset=utf-8',
+  'Authorization': `bearer ${token}`
+}
+
+const wfetch = async ({ path, method = 'GET', body }) => {
+  const response = await fetch(`${baseUrl}${path}`, { method, headers }, body)
+  if (response.status === 401) {
+    console.log('Unauthorized.')
+    sessionStorage.clear()
+  }
+  return response
+}
 
 const get = async (path) => {
-  return await fetch(`${baseUrl}${path}`, {
-    headers: { 'Authorization': `bearer ${token}` }
-  })
+  return await wfetch({ path })
 }
 
 const post = async (path, body) => {
-  return await fetch(`${baseUrl}${path}`, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': `bearer ${token}`
-    },
-    body: JSON.stringify(body)
-  })
+  return await wfetch({ path, method: 'GET', body })
 }
 
 const put = async (path, body) => {
-  return await fetch(`${baseUrl}${path}`, {
-    method: 'PUT',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': `bearer ${token}`
-    },
-    body: JSON.stringify(body)
-  })
+  return await wfetch({ path, method: 'PUT', body })
 }
 
 
 
-export { get, post, put }
+export { wfetch, get, post, put }

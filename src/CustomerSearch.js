@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Table } from 'antd'
+import { wfetch } from './utils/wfetch'
 
 class CustomerSearch extends Component {
   state = {
@@ -30,11 +31,8 @@ class CustomerSearch extends Component {
   }
 
   getCustomers = async () => {
-    let response = await fetch(`http://0.0.0.0:8081/customer/ac?q=${this.state.query}`, {
-      headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1Y2wiLCJpYXQiOjE1MzEwNzA4NTl9.Cy-_L7tMuQOtBAvXFG3KruS3zs8evl466c3Dv9i6NBw' }
-    })
+    let response = await wfetch({ path: `/customer/ac?q=${this.state.query}` })
     let json = await response.json()
-
     this.setState({ results: json })
   }
 
