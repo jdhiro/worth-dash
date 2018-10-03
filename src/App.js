@@ -1,13 +1,16 @@
+import './App.css'
 import React, { Component } from 'react'
 import Login from './Login'
 import CustomerSearch from './CustomerSearch'
+import CustomerAdd from './CustomerAdd'
 import CustomerDetail from './CustomerDetail'
-import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom'
-import { Layout, Menu, Icon } from 'antd'
-import './App.css';
+import SideMenu from './SideMenu'
+import PrivateRoute from './PrivateRoute'
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
+import { Button, Layout, Row, Col } from 'antd'
+import Exception from 'ant-design-pro/lib/Exception'
 
-const { Header, Content, Footer, Sider } = Layout
-const SubMenu = Menu.SubMenu
+const { Content } = Layout
 
 class App extends Component {
   render() {
@@ -22,60 +25,23 @@ class App extends Component {
   }
 }
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-       sessionStorage.getItem('token') !== null ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: '/login',
-            state: { from: props.location }
-          }}
-        />
-      )
-    }
-  />
-)
-
 const Main = () => (
   <Layout style={{ minHeight: '100vh' }}>
-    {Sider}
-    <Content>
-      <Route path='/customer-search' component={CustomerSearch} />
-      <Route path='/customer/:id' component={CustomerDetail} />
+    <SideMenu />
+    <Content style={{ padding: '50px' }}>
+      <Switch>
+        <Route path='/customer-search' component={CustomerSearch} />
+        <Route path='/customer-add' component={CustomerAdd} />
+        <Route path='/customer/:id' component={CustomerDetail} />
+        <Route component={NotFound} />
+      </Switch>
     </Content>
   </Layout>
 )
 
-const SideBar = () => (
-  <Sider>
-    <div className="logo" />
-    <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-      <SubMenu key="sub1" title={<span><Icon type="user" /><span>Customers</span></span>} >
-        <Menu.Item key="3">Search</Menu.Item>
-        <Menu.Item key="4">Add customer</Menu.Item>
-      </SubMenu>
-      <SubMenu
-        key="sub2"
-        title={<span><Icon type="line-chart" /><span>Analytics</span></span>}
-      >
-        <Menu.Item key="6">Team 1</Menu.Item>
-        <Menu.Item key="8">Team 2</Menu.Item>
-      </SubMenu>
-      <SubMenu
-        key="sub2"
-        title={<span><Icon type="line-chart" /><span>Settings</span></span>}
-      >
-        <Menu.Item key="6">Sign out</Menu.Item>
-        <Menu.Item key="8">Team 2</Menu.Item>
-      </SubMenu>
-    </Menu>
-  </Sider>
+const NotFound = () => (
+  <Exception type='404' desc='Sorry, page not found.'
+  actions={<Link to='/'>Return home</Link>}/>
 )
-
-
 
 export default App
