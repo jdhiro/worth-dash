@@ -8,7 +8,8 @@ const headers = {
 }
 
 const wfetch = async ({ path, method = 'GET', body }) => {
-  const response = await fetch(`${baseUrl}${path}`, { method, headers }, body)
+  const bodyString = JSON.stringify(body)
+  const response = await fetch(`${baseUrl}${path}`, { method, headers, body: bodyString })
   if (response.status === 401) {
     console.log('Unauthorized.')
     sessionStorage.clear()
@@ -21,7 +22,7 @@ const get = async (path) => {
 }
 
 const post = async (path, body) => {
-  return await wfetch({ path, method: 'GET', body })
+  return await wfetch({ path, method: 'POST', body })
 }
 
 const put = async (path, body) => {

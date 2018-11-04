@@ -31,7 +31,7 @@ const Main = () => (
     <Content style={{ padding: '50px' }}>
       <Switch>
         <Route path='/customer-search' component={CustomerSearch} />
-        <Route path='/customer-add' component={CustomerAdd} />
+        <Route path='/customer-add' component={NotFound} />
         <Route path='/customer/:id' component={CustomerDetail} />
         <Route component={NotFound} />
       </Switch>
