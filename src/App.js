@@ -4,6 +4,9 @@ import Login from './Login'
 import CustomerSearch from './CustomerSearch'
 import CustomerAdd from './CustomerAdd'
 import CustomerDetail from './CustomerDetail'
+import CardSearch from './CardSearch'
+import CardAdd from './CardAdd'
+import Reports from './Reports'
 import SideMenu from './SideMenu'
 import PrivateRoute from './PrivateRoute'
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
@@ -31,8 +34,11 @@ const Main = () => (
     <Content style={{ padding: '50px' }}>
       <Switch>
         <Route path='/customer-search' component={CustomerSearch} />
-        <Route path='/customer-add' component={NotFound} />
+        <Route path='/customer-add' component={CustomerAdd} />
         <Route path='/customer/:id' component={CustomerDetail} />
+        <Route path='/card-search' component={CardSearch} />
+        <Route path='/card-add' component={CardAdd} />
+        <Route path='/reports' component={Reports} />
         <Route component={NotFound} />
       </Switch>
     </Content>

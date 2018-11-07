@@ -46,7 +46,7 @@ class SideMenu extends Component {
             <Menu.Item key='card-search'>Search</Menu.Item>
             <Menu.Item key='card-add'>Add</Menu.Item>
           </SubMenu>
-          <Menu.Item key='analytics'><span><Icon type='line-chart' /><span>Analytics</span></span></Menu.Item>
+          {/* <Menu.Item key='analytics'><span><Icon type='line-chart' /><span>Analytics</span></span></Menu.Item> */}
           <Menu.Item key='reports'><span><Icon type='solution' /><span>Reports</span></span></Menu.Item>
           <SubMenu key='settings' title={<span><Icon type='setting' /><span>Settings</span></span>} >
             <Menu.Item key='settings-logout'>Sign out</Menu.Item>

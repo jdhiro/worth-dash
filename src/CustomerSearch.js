@@ -52,6 +52,7 @@ class CustomerSearch extends Component {
   render() {
     return (
       <div>
+        <h1>Search for Customer</h1>
       {/*TODO: Add support for selection refinement.
         <InputGroup size='large' compact>
         <Select size='large' defaultValue='lastName'  style={{ width: '25%' }}>
