@@ -10,7 +10,7 @@ import Reports from './Reports'
 import SideMenu from './SideMenu'
 import PrivateRoute from './PrivateRoute'
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
-import { Button, Layout, Row, Col } from 'antd'
+import { Layout } from 'antd'
 import Exception from 'ant-design-pro/lib/Exception'
 
 const { Content } = Layout

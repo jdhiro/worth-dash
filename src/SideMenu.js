@@ -11,10 +11,15 @@ class SideMenu extends Component {
   keyActions = {
     'customer-search': (k) => this.push(`/${k}`),
     'customer-add': (k) => this.push(`/${k}`),
+
     'card-search': (k) => this.push(`/${k}`),
     'card-add': (k) => this.push(`/${k}`),
+    'card-add-bulk': (k) => this.push(`/${k}`),
+
     'analytics': (k) => this.push(`/${k}`),
+
     'reports': (k) => this.push(`/${k}`),
+
     'settings-logout': () => {
       sessionStorage.removeItem('token')
       this.props.history.push('/login')

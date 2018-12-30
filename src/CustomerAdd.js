@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { message, Form, Input, Tooltip, Icon, Button, Layout, Row, Col, Select, Checkbox, Cascader, AutoComplete } from 'antd'
 import queryString from 'query-string'
-import { post } from './utils/wfetch'
+import { wpost } from './utils/wfetch'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -26,7 +26,7 @@ class CustomerAddForm extends Component {
         try {
           // Execute the web service call to add the customer
           // TODO: Add logic to make sure another customer with the same name/phone doesn't exist. If so, require different phone #.
-          const response = await post(`/customer`, body)
+          const response = await wpost(`/customer`, body)
           if (!response.ok) {
               throw Error(response.statusText)
           }

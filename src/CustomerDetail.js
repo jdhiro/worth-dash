@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { get, post, put } from './utils/wfetch'
+import { wget, wpost, wput } from './utils/wfetch'
 import moment from 'moment'
 import { message, Icon, Avatar, Row, Col, Button, Card, Form, Input, InputNumber, Modal, Table, Tabs } from 'antd'
 const TabPane = Tabs.TabPane
@@ -62,7 +62,7 @@ class CustomerDetail extends Component {
   ]
 
   getHistory = async () => {
-    const response = await get(`/customer/${this.id}/history`)
+    const response = await wget(`/customer/${this.id}/history`)
     const json = await response.json()
 
     this.setState({
@@ -72,7 +72,7 @@ class CustomerDetail extends Component {
   }
 
   getCustomer = async () => {
-    let response = await get (`/customer/${this.id}`)
+    let response = await wget(`/customer/${this.id}`)
     let json = await response.json()
 
     this.setState({ customer: json })
@@ -107,7 +107,7 @@ class CustomerDetail extends Component {
     }
     try {
       // Execute the web service call to update the customer
-      const response = await put(`/customer/${this.state.customer.id}`, body)
+      const response = await wput(`/customer/${this.state.customer.id}`, body)
       if (!response.ok) {
           throw Error(response.statusText)
       }
@@ -136,7 +136,7 @@ class CustomerDetail extends Component {
     }
     try {
       // Execute the web service call to update the customer
-      const response = await post('/transaction', body)
+      const response = await wpost('/transaction', body)
       if (!response.ok) {
           throw Error(response.statusText)
       }
@@ -158,7 +158,7 @@ class CustomerDetail extends Component {
     }
     try {
       // Execute the web service call to update the customer
-      const response = await post('/transaction/reward', body)
+      const response = await wpost('/transaction/reward', body)
       if (!response.ok) {
           throw Error(response.statusText)
       }

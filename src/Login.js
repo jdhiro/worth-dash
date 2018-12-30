@@ -1,25 +1,31 @@
 import './Login.css';
 import React, { Component } from 'react'
+import { message, Alert, Button, Card, Col, Form, Icon, Input, Row } from 'antd'
 import { wfetch } from './utils/wfetch'
 
-import { Form, Icon, Input, Button, Checkbox, Card, Row, Col } from 'antd'
 const FormItem = Form.Item
 
-class LoginForm extends React.Component {
+class LoginForm extends Component {
   handleSubmit = async (e) => {
     e.preventDefault()
     this.props.form.validateFields( async (err, values) => {
       if (!err) {
         const urlParams = new URLSearchParams(Object.entries(values))
         try {
+          if (values.username === 'ucljuanita' || values.username === 'uclslater') {
+            throw 'That is not a valid admin account.'
+          }
           let response = await wfetch({ path: `/auth/login?${urlParams}`, method: 'POST'})
           if (response.ok) {
             const json = await response.json()
             sessionStorage.setItem('token', json.token)
             this.props.history.push('/customer-search')
+          } else {
+            throw 'Username and password do not match.'
           }
         } catch(err) {
           console.log(err)
+          message.info(err, 5)
         }
       }
     })

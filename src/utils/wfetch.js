@@ -17,18 +17,18 @@ const wfetch = async ({ path, method = 'GET', body }) => {
   return response
 }
 
-const get = async (path) => {
+const wget = async (path) => {
   return await wfetch({ path })
 }
 
-const post = async (path, body) => {
+const wpost = async (path, body) => {
   return await wfetch({ path, method: 'POST', body })
 }
 
-const put = async (path, body) => {
+const wput = async (path, body) => {
   return await wfetch({ path, method: 'PUT', body })
 }
 
 
 
-export { wfetch, get, post, put }
+export { wfetch, wget, wpost, wput }
