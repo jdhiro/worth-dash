@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Button, Form, Input, InputNumber, Layout  } from 'antd'
+import { Button, Form, Input, InputNumber, Layout, Modal  } from 'antd'
 import { wpost } from './utils/wfetch'
 
+const { confirm } = Modal
 const { Content } = Layout
 const { TextArea } = Input
 
@@ -16,11 +17,12 @@ class CardAddForm extends Component {
 
   componentDidMount() {
       this.props.form.validateFields()
-    }
+  }
 
   handleSubmit = async (e) => {
     e.preventDefault()
-    this.props.form.validateFields(async (err, values) => {
+    const form = this.props.form
+    form.validateFields(async (err, values) => {
       if (!err) {
         this.setState({ loading:true })
         let cards = values.cardNumbers
@@ -30,6 +32,17 @@ class CardAddForm extends Component {
         let amount = parseInt(values.amount) * 100
         let response = await wpost('/card', { cards, amount } )
         let json = await response.json()
+        confirm({
+          iconType: 'exclamation-circle',
+          title: 'Added gift cards',
+          content: `${json.insertSuccess.length} cards added, ${json.insertError.length} errors`,
+          onOk() {
+            form.resetFields()
+          },
+          onCacnel() {
+            form.resetFields()
+          }
+        })
       }
     })
   }
