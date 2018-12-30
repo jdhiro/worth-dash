@@ -8,38 +8,44 @@ const Option = Select.Option
 
 
 class CustomerAddForm extends Component {
+  state = {
+    submitting: false
+  }
 
   submitNewCustomer = async (e) => {
     e.preventDefault()
-    this.props.form.validateFields( async (err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values)
-        // The state of the form to "in progress" so that it can't be closed during the request
-        this.setState({ editCustomerInProgress: true })
-        // Build the data object to send in the body
-        const body = {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          phoneNumber: values.phoneNumber,
-          email: values.email,
-        }
-        try {
-          // Execute the web service call to add the customer
-          // TODO: Add logic to make sure another customer with the same name/phone doesn't exist. If so, require different phone #.
-          const response = await wpost(`/customer`, body)
-          if (!response.ok) {
-              throw Error(response.statusText)
-          }
-          const responseBody = await response.json()
-          this.props.history.push(`/customer/${responseBody.insertId}`)
-        } catch(err) {
-          console.log(err)
-          console.log('err', err)
-          message.error('There was an error updating the user.')
-        }
-      }
-    })
+    this.setState({ submitting: true })
 
+    const form = this.props.form
+    let v = null
+
+    // Validate the form, set v if successful.
+    try {
+      const values = await form.validateFields()
+      v = { ...values }
+      if (v.phoneNumber !== null) {
+        v.phoneNumber = v.phoneNumber.replace(/[^0-9]/g,'')
+      }
+    } catch (err) {
+      console.log(err)
+      this.setState({ submitting: false })
+    }
+
+    // If v is not null, submit data to the server.
+    if (v !== null) {
+      try {
+        const response = await wpost(`/customer`, v)
+        if (!response.ok) {
+            throw Error(response.statusText)
+        }
+        const responseBody = await response.json()
+        this.props.history.push(`/customer/${responseBody.insertId}`)
+      } catch (err) {
+        console.log(err)
+        message.error('There was an error creating the user.')
+        this.setState({ submitting: false })
+      }
+    }
   }
 
   render() {
@@ -50,7 +56,11 @@ class CustomerAddForm extends Component {
         <Form onSubmit={this.submitNewCustomer} className='login-form'>
           <FormItem>
             {getFieldDecorator('firstName', {
-              rules: [{ required: true, message: 'Please enter a first name.' }],
+              rules: [{
+                required: true,
+                message: 'Please enter a first name.',
+                whitespace: true
+              }],
             })(
               <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="First name" />
             )}
@@ -58,7 +68,11 @@ class CustomerAddForm extends Component {
 
           <FormItem>
             {getFieldDecorator('lastName', {
-              rules: [{ required: true, message: 'Please enter a last name.' }],
+              rules: [{
+                required: true,
+                message: 'Please enter a last name.',
+                whitespace: true
+            }],
             })(
               <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Last name" />
             )}
@@ -66,7 +80,13 @@ class CustomerAddForm extends Component {
 
           <FormItem>
             {getFieldDecorator('phoneNumber', {
-              rules: [{ required: false, message: 'Please enter a phone number.' }],
+              rules: [{
+                required: false,
+                type: 'string',
+                pattern: /^[0-9-]+$/,
+                message: 'Please enter a valid phone number.'
+              }],
+              initialValue: null
             })(
               <Input prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Phone number" />
             )}
@@ -74,14 +94,19 @@ class CustomerAddForm extends Component {
 
           <FormItem>
             {getFieldDecorator('email', {
-              rules: [],
+              rules: [{
+                required: false,
+                type: 'email',
+                message: 'Please enter a valid email.'
+              }],
+              initialValue: null
             })(
               <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Email" />
             )}
           </FormItem>
 
           <FormItem>
-            <Button type="primary" htmlType="submit" className="login-form-button">
+            <Button type="primary" htmlType="submit" className="login-form-button" loading={this.state.submitting}>
               Submit
             </Button>
           </FormItem>

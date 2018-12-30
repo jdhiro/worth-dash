@@ -10,6 +10,9 @@ function hasErrors(fieldsError) {
 }
 
 class CardAddForm extends Component {
+  state = {
+    loading: false
+  }
 
   componentDidMount() {
       this.props.form.validateFields()
@@ -19,6 +22,7 @@ class CardAddForm extends Component {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
+        this.setState({ loading:true })
         let cards = values.cardNumbers
         cards = cards.replace(/[^A-Za-z0-9,]/g,'') // Remove all funny characters
         cards = cards.split(',') // Split into array at the commas
@@ -31,17 +35,6 @@ class CardAddForm extends Component {
   }
 
   render() {
-
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-      },
-    }
 
     const {
       getFieldDecorator, getFieldsError, getFieldError, isFieldTouched,
@@ -77,7 +70,7 @@ class CardAddForm extends Component {
             )}
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>Submit</Button>
+            <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} loading={this.state.loading}>Submit</Button>
           </Form.Item>
         </Form>
       </div>
