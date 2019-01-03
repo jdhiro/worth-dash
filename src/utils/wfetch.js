@@ -1,11 +1,10 @@
-
-const baseUrl = () => {
-  if (process.env.NODE_ENV === 'production') {
-    return 'https://worthfu.com:444'
-  } else {
-    return 'http://0.0.0.0:8081'
-  }
+let baseUrl = ''
+if (process.env.NODE_ENV === 'production') {
+  baseUrl = 'https://worthfu.com:444'
+} else {
+  baseUrl = 'http://0.0.0.0:8081'
 }
+
 const token = sessionStorage.getItem('token')
 const headers = {
   'Accept': 'application/json',
