@@ -1,7 +1,7 @@
 module.exports = {
-  apps : [{
-    name      : 'worth-dash',
-    script    : 'server.js',
+  apps: [{
+    name: 'worth-dash',
+    script: 'index.js',
     env: {
       NODE_ENV: 'development'
     },
@@ -14,20 +14,12 @@ module.exports = {
     production : {
       key: '../hiro-keys/do_rsa',
       user: 'hiro',
-      host: '159.89.221.108',
+      host: '68.183.169.226',
       ref: 'origin/master',
+      ssh_options: "StrictHostKeyChecking=no",
       repo: 'git@github.com:jdhiro/worth-dash.git',
       path: '/var/pm2-deploy/worth-dash',
-      'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production'
-    },
-    aws : {
-      key: '../hiro-keys/aws.pem',
-      user: 'ubuntu',
-      host: '35.163.48.219',
-      ref: 'origin/master',
-      repo: 'git@github.com:jdhiro/worth-dash.git',
-      path: '/var/pm2-deploy/worth-dash',
-      'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production'
+      'post-deploy': 'npm install && npm run build && pm2 reload ecosystem.config.js --env production'
     }
   }
 }
