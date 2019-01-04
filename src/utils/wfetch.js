@@ -2,22 +2,32 @@ let baseUrl = ''
 if (process.env.NODE_ENV === 'production') {
   baseUrl = 'https://worthfu.com:444'
 } else {
-  baseUrl = 'http://0.0.0.0:8081'
+  baseUrl = 'http://localhost:8081'
 }
 
-const token = sessionStorage.getItem('token')
-const headers = {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json; charset=utf-8',
-  'Authorization': `bearer ${token}`
+let token = null
+
+function getHeaders() {
+  if (token === null) {
+    token = sessionStorage.getItem('token')
+  }
+  return {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json; charset=utf-8',
+    'Authorization': 'bearer ' + token
+  }
 }
 
 const wfetch = async ({ path, method = 'GET', body }) => {
   const bodyString = JSON.stringify(body)
-  const response = await fetch(`${baseUrl}${path}`, { method, headers, body: bodyString })
+  const response = await fetch(`${baseUrl}${path}`, {
+    method,
+    headers: getHeaders(),
+    body: bodyString
+  })
   if (response.status === 401) {
-    console.log('Unauthorized.')
     sessionStorage.clear()
+    // TODO: Go to login screen and clear history.
   }
   return response
 }
