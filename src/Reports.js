@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { DatePicker, Button, Layout, Table } from 'antd'
+import { DatePicker, Table } from 'antd'
 import { wfetch } from './utils/wfetch'
 
-const { MonthPicker, RangePicker, WeekPicker } = DatePicker
-
-
-const { Content } = Layout
+const { RangePicker } = DatePicker
 
 class Reports extends Component {
 

@@ -1,12 +1,10 @@
+import * as Sentry from '@sentry/browser'
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Layout, Table, Input, Select } from 'antd'
-import { wfetch } from './utils/wfetch'
-
-const { Content } = Layout
+import { wfetch, NetworkError, ResponseError } from './utils/wfetch'
+import { message, Table, Input } from 'antd'
 const { Search } = Input
-const InputGroup = Input.Group
-const Option = Select.Option
+
 
 class CustomerSearch extends Component {
   state = {
@@ -26,32 +24,26 @@ class CustomerSearch extends Component {
     )}
   ]
 
-  handleChange = (e) => {
-    this.setState({[e.target.name]: e.target.value})
-  }
-
-  /*
-  handleSubmit = (e) => {
-    e.preventDefault()
-    this.getCustomers()
-  }
-
-  getCustomers = async () => {
-    let response = await wfetch({ path: `/customer/ac?q=${this.state.query}` })
-    let json = await response.json()
-    this.setState({ results: json })
-  }
-  */
-
-  handleSearch = async (val, e) => {
+  handleSubmit = async (val, e) => {
     try {
       let response = await wfetch({ path: `/customer/ac?q=${val}` })
-      if (response.ok) {
+      if (!response.ok) {
+        throw new ResponseError('', response)
+      } else {
         let json = await response.json()
         this.setState({ results: json })
       }
     } catch(err) {
-      console.log(err)
+      if (err instanceof ResponseError) {
+        if (err.res.status === 401) {
+          message.info('Unauthorized username and password.', 5)
+        } else if (err.res.status === 500) {
+          message.info('Server error.', 5)
+        }
+      } else if (err instanceof NetworkError) {
+        message.info('Network error, please check your connection.', 5)
+      }
+      Sentry.captureException(err)
     }
   }
 
@@ -59,18 +51,8 @@ class CustomerSearch extends Component {
     return (
       <div>
         <h1>Search for Customer</h1>
-      {/*TODO: Add support for selection refinement.
-        <InputGroup size='large' compact>
-        <Select size='large' defaultValue='lastName'  style={{ width: '25%' }}>
-          <Option value='lastName'>Last name</Option>
-          <Option value='firstName'>First name</Option>
-          <Option value='phoneNumber'>Phone number</Option>
-          <Option value='id'>ID</Option>
-        </Select>
-        <Search size='large' placeholder='Search' style={{ width: '75%' }} enterButton onSearch={this.handleSearch} />
-      </InputGroup>*/}
-      <Search size='large' placeholder='Search for last name, first name, or phone number' enterButton onSearch={this.handleSearch} />
-      <Table columns={this.columns} dataSource={this.state.results} rowKey='id' style={{ marginTop: '15px' }} />
+        <Search size='large' placeholder='Search for last name, first name, or phone number' enterButton onSearch={this.handleSubmit} />
+        <Table columns={this.columns} dataSource={this.state.results} rowKey='id' style={{ marginTop: '15px' }} />
       </div>
     )
   }

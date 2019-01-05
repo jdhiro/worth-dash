@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { Button, Form, Input, InputNumber, Layout, Modal  } from 'antd'
+import { Button, Form, Input, InputNumber, Modal  } from 'antd'
 import { wpost } from './utils/wfetch'
 
 const { confirm } = Modal
-const { Content } = Layout
 const { TextArea } = Input
 
 function hasErrors(fieldsError) {

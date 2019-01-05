@@ -196,7 +196,7 @@ class CustomerDetail extends Component {
                   <span style={{ fontSize: 'x-small', color: 'darkgrey' }}>Created {moment(this.state.customer.createdAt).format('lll')}</span><br />
                   <span style={{ fontSize: 'x-small', color: 'darkgrey' }}>Updated {moment(this.state.customer.updatedAt).format('lll')}</span><br />
                   <hr style={{ border: 'none', height: '1px', backgroundColor: '#AAA' }} />
-                  <a onClick={this.showEditCustomer}>Edit</a>
+                  <Button onClick={this.showEditCustomer}>Edit</Button>
                 </Col>
               </Row>
             </Card>

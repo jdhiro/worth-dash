@@ -29,11 +29,11 @@ function getHeaders() {
   }
 }
 
-const wfetch = async ({ path, method = 'GET', body }) => {
+const wfetch = async ({ path, method, body }) => {
   const bodyString = JSON.stringify(body)
   try {
     const response = await fetch(`${baseUrl}${path}`, {
-      method,
+      method: method || 'GET',
       headers: getHeaders(),
       body: bodyString
     })

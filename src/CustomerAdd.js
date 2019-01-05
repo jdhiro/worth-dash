@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-import { message, Form, Input, Tooltip, Icon, Button, Layout, Row, Col, Select, Checkbox, Cascader, AutoComplete } from 'antd'
-import queryString from 'query-string'
+import { message, Form, Input, Icon, Button } from 'antd'
 import { wpost } from './utils/wfetch'
 
 const FormItem = Form.Item
-const Option = Select.Option
-
 
 class CustomerAdd extends Component {
 

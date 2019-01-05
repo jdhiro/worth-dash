@@ -1,12 +1,8 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { message, Layout, Table, Input, Select } from 'antd'
+import { message, Input } from 'antd'
 import { wfetch } from './utils/wfetch'
 
-const { Content } = Layout
 const { Search } = Input
-const InputGroup = Input.Group
-const Option = Select.Option
 
 class CardSearch extends Component {
   state = {

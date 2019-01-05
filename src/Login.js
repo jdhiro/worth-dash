@@ -1,7 +1,7 @@
 import './Login.css';
 import React, { Component } from 'react'
-import { message, Alert, Button, Card, Col, Form, Icon, Input, Row } from 'antd'
-import { wfetch, wpost, NetworkError, ResponseError } from './utils/wfetch'
+import { message, Button, Card, Col, Form, Icon, Input, Row } from 'antd'
+import { wfetch, NetworkError, ResponseError } from './utils/wfetch'
 import * as Sentry from '@sentry/browser'
 
 const FormItem = Form.Item
@@ -46,9 +46,9 @@ class Login extends Component {
         }
       } catch (err) {
         if (err instanceof ResponseError) {
-          if (err.res.status == 401) {
+          if (err.res.status === 401) {
             message.info('Unauthorized username and password.', 5)
-          } else if (err.res.status == 500) {
+          } else if (err.res.status === 500) {
             message.info('Server error.', 5)
           }
         } else if (err instanceof NetworkError) {
@@ -97,7 +97,7 @@ class Login extends Component {
                 )}
               </FormItem>
               <FormItem>
-                <Button block type='primary' htmlType='submit'>
+                <Button block type='primary' htmlType='submit' loading={this.state.submitting}>
                   Sign In
                 </Button>
               </FormItem>

@@ -1,15 +1,16 @@
-import React, { Component } from 'react'
 import * as Sentry from '@sentry/browser'
+import React, { Component } from 'react'
+import { Button } from 'antd'
 
 
-class ErrorBoundary extends React.Component {
+class ErrorBoundary extends Component {
   constructor(props) {
     super(props)
-    this.state = { hasError: false }
+    this.state = { error: false }
   }
 
   static getDerivedStateFromError(error) {
-    return { hasError: true }
+    return { error: true }
   }
 
   componentDidCatch(error, errorInfo) {
@@ -25,7 +26,7 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.error) {
         return (
-          <a onClick={() => Sentry.showReportDialog()}>Report feedback</a>
+          <Button onClick={() => Sentry.showReportDialog()}>Report feedback</Button>
         )
     } else {
         return this.props.children
