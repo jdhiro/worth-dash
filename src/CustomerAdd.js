@@ -7,7 +7,8 @@ const FormItem = Form.Item
 const Option = Select.Option
 
 
-class CustomerAddForm extends Component {
+class CustomerAdd extends Component {
+
   state = {
     submitting: false
   }
@@ -19,19 +20,16 @@ class CustomerAddForm extends Component {
     const form = this.props.form
     let v = null
 
-    // Validate the form, set v if successful.
     try {
       const values = await form.validateFields()
-      v = { ...values }
+      v = {...values}
       if (v.phoneNumber !== null) {
         v.phoneNumber = v.phoneNumber.replace(/[^0-9]/g,'')
       }
     } catch (err) {
-      console.log(err)
       this.setState({ submitting: false })
     }
 
-    // If v is not null, submit data to the server.
     if (v !== null) {
       try {
         const response = await wpost(`/customer`, v)
@@ -41,7 +39,6 @@ class CustomerAddForm extends Component {
         const responseBody = await response.json()
         this.props.history.push(`/customer/${responseBody.insertId}`)
       } catch (err) {
-        console.log(err)
         message.error('There was an error creating the user.')
         this.setState({ submitting: false })
       }
@@ -72,7 +69,7 @@ class CustomerAddForm extends Component {
                 required: true,
                 message: 'Please enter a last name.',
                 whitespace: true
-            }],
+              }],
             })(
               <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Last name" />
             )}
@@ -116,6 +113,4 @@ class CustomerAddForm extends Component {
   }
 }
 
-const CustomerAdd = Form.create()(CustomerAddForm)
-
-export default CustomerAdd
+export default Form.create()(CustomerAdd)

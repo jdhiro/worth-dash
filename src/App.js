@@ -1,4 +1,5 @@
 import './App.css'
+import ErrorBoundary from './ErrorBoundary'
 import React, { Component } from 'react'
 import Login from './Login'
 import CustomerSearch from './CustomerSearch'
@@ -18,12 +19,14 @@ const { Content } = Layout
 class App extends Component {
   render() {
     return (
-      <Router>
-        <Switch>
-          <Route path='/login' component={Login} />
-          <PrivateRoute component={Main} />
-        </Switch>
-      </Router>
+      <ErrorBoundary>
+        <Router>
+          <Switch>
+            <Route path='/login' component={Login} />
+            <PrivateRoute component={Main} />
+          </Switch>
+        </Router>
+      </ErrorBoundary>
     )
   }
 }

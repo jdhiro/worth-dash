@@ -7,6 +7,17 @@ if (process.env.NODE_ENV === 'production') {
 
 let token = null
 
+class NetworkError extends Error {}
+
+class ResponseError extends Error {
+  constructor (message, res) {
+    super(message)
+    Error.captureStackTrace( this, this.constructor )
+    this.name = 'ResponseError'
+    this.res = res
+  }
+}
+
 function getHeaders() {
   if (token === null) {
     token = sessionStorage.getItem('token')
@@ -14,22 +25,23 @@ function getHeaders() {
   return {
     'Accept': 'application/json',
     'Content-Type': 'application/json; charset=utf-8',
-    'Authorization': 'bearer ' + token
+    'Authorization': 'Bearer ' + token
   }
 }
 
 const wfetch = async ({ path, method = 'GET', body }) => {
   const bodyString = JSON.stringify(body)
-  const response = await fetch(`${baseUrl}${path}`, {
-    method,
-    headers: getHeaders(),
-    body: bodyString
-  })
-  if (response.status === 401) {
-    sessionStorage.clear()
-    // TODO: Go to login screen and clear history.
+  try {
+    const response = await fetch(`${baseUrl}${path}`, {
+      method,
+      headers: getHeaders(),
+      body: bodyString
+    })
+    return response
+  } catch (err) {
+    if (err instanceof TypeError) throw new NetworkError(err)
+    else throw err
   }
-  return response
 }
 
 const wget = async (path) => {
@@ -44,6 +56,4 @@ const wput = async (path, body) => {
   return await wfetch({ path, method: 'PUT', body })
 }
 
-
-
-export { wfetch, wget, wpost, wput }
+export { NetworkError, ResponseError, wfetch, wget, wpost, wput }

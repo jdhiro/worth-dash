@@ -44,9 +44,15 @@ class CustomerSearch extends Component {
   */
 
   handleSearch = async (val, e) => {
-    let response = await wfetch({ path: `/customer/ac?q=${val}` })
-    let json = await response.json()
-    this.setState({ results: json })
+    try {
+      let response = await wfetch({ path: `/customer/ac?q=${val}` })
+      if (response.ok) {
+        let json = await response.json()
+        this.setState({ results: json })
+      }
+    } catch(err) {
+      console.log(err)
+    }
   }
 
   render() {
