@@ -19,7 +19,7 @@ module.exports = {
       ssh_options: "StrictHostKeyChecking=no",
       repo: 'git@github.com:jdhiro/worth-dash.git',
       path: '/var/pm2-deploy/worth-dash',
-      'post-deploy': 'npm install && npm run build && pm2 reload ecosystem.config.js --env production'
+      'post-deploy': 'npm ci && npm run build && pm2 reload ecosystem.config.js --env production'
     }
   }
 }
