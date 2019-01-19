@@ -26,7 +26,7 @@ class CustomerSearch extends Component {
 
   handleSubmit = async (val, e) => {
     try {
-      let response = await wfetch({ path: `/customer/ac?q=${val}` })
+      let response = await wfetch({ path: `/search?q=${val}` })
       if (!response.ok) {
         throw new ResponseError('', response)
       } else {

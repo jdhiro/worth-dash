@@ -36,7 +36,7 @@ class Login extends Component {
     if (v !== null) {
       const urlParams = new URLSearchParams(Object.entries(v))
       try {
-        const response = await wfetch({ path: `/auth?${urlParams}`, method: 'POST'})
+        const response = await wfetch({ path: '/auth', method: 'POST', body: v })
         if (!response.ok) {
           throw new ResponseError('', response)
         } else {

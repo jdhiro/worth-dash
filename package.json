@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@sentry/browser": "^4.4.2",
+    "@sentry/browser": "^4.5.2",
     "ant-design-pro": "^1.4.4",
-    "antd": "^3.11.6",
+    "antd": "^3.12.3",
     "express": "^4.16.4",
     "file-saver": "^2.0.0",
     "moment": "^2.23.0",
@@ -29,6 +29,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "pm2": "^3.2.4"
+    "pm2": "^3.2.9"
   }
 }
