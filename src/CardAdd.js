@@ -23,7 +23,7 @@ class CardAddForm extends Component {
     const form = this.props.form
     form.validateFields(async (err, values) => {
       if (!err) {
-        this.setState({ loading:true })
+        this.setState({loading: true})
         let cards = values.cardNumbers
         cards = cards.replace(/[^A-Za-z0-9,]/g,'') // Remove all funny characters
         cards = cards.split(',') // Split into array at the commas
@@ -35,11 +35,13 @@ class CardAddForm extends Component {
           iconType: 'exclamation-circle',
           title: 'Added gift cards',
           content: `${json.insertSuccess.length} cards added, ${json.insertError.length} errors`,
-          onOk() {
+          onOk: () => {
             form.resetFields()
+            this.setState({loading: false})
           },
-          onCacnel() {
+          onCancel: () => {
             form.resetFields()
+            this.setState({loading: false})
           }
         })
       }

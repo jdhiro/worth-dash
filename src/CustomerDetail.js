@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { wget, wpost, wput } from './utils/wfetch'
+import { wfetch, wget, wpost, wput } from './utils/wfetch'
 import moment from 'moment'
 import { message, Icon, Avatar, Row, Col, Button, Card, Form, Input, InputNumber, Modal, Table, Tabs } from 'antd'
 const TabPane = Tabs.TabPane
@@ -126,12 +126,12 @@ class CustomerDetail extends Component {
     e.preventDefault()
     const body = {
       customerId: this.state.customer.id,
-      description: this.state.ba_description,
-      accrueRewards: false
+      credit: 0,
+      debit: 0,
     }
     if (this.state.ba_amount > 0) {
       body.credit = this.state.ba_amount * 100
-    } else if(this.state.ba_amount < 0) {
+    } else if (this.state.ba_amount < 0) {
       body.debit = Math.abs(this.state.ba_amount) * 100
     }
     try {
@@ -149,7 +149,6 @@ class CustomerDetail extends Component {
   }
 
   submitRewardAdjustment = async (e) => {
-    console.log('submitRewardAdjustment')
     e.preventDefault()
     const body = {
       customerId: this.state.customer.id,
@@ -158,7 +157,7 @@ class CustomerDetail extends Component {
     }
     try {
       // Execute the web service call to update the customer
-      const response = await wpost('/transaction/reward', body)
+      const response = await wfetch({path: '/transaction/reward', method: 'POST', body})
       if (!response.ok) {
           throw Error(response.statusText)
       }
@@ -213,7 +212,7 @@ class CustomerDetail extends Component {
                       <InputNumber step={1} precision={2} size={10} value={this.state.ba_amount} onChange={(v) => this.setState({ ba_amount: v })} />
                     </FormItem>
                     <FormItem label='Description'>
-                      <Input name='ba_description' value={this.state.ba_description} onChange={this.handleChange} />
+                      <Input disabled placeholder='Temporarily disabled' name='ba_description' value={this.state.ba_description} onChange={this.handleChange} />
                     </FormItem>
                     <FormItem>
                       <Button htmlType='submit' type='primary'>Submit</Button>
@@ -230,7 +229,7 @@ class CustomerDetail extends Component {
                       <InputNumber step={1} precision={0} size={10} value={this.state.ra_amount} onChange={(v) => this.setState({ ra_amount: v })} />
                     </FormItem>
                     <FormItem label='Description'>
-                      <Input name='ra_description' value={this.state.ra_description} onChange={this.handleChange}/>
+                      <Input disabled placeholder='Temporarily disabled' name='ra_description' value={this.state.ra_description} onChange={this.handleChange}/>
                     </FormItem>
                     <FormItem>
                       <Button htmlType='submit' type='primary'>Submit</Button>

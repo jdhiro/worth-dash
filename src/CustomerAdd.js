@@ -34,7 +34,7 @@ class CustomerAdd extends Component {
             throw Error(response.statusText)
         }
         const responseBody = await response.json()
-        this.props.history.push(`/customer/${responseBody.insertId}`)
+        this.props.history.push(`/customer/${responseBody.customerId}`)
       } catch (err) {
         message.error('There was an error creating the user.')
         this.setState({ submitting: false })

@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Layout, Menu, Icon } from 'antd'
 
-const { Sider } = Layout
 const SubMenu = Menu.SubMenu
 
 class SideMenu extends Component {
 
   push = this.props.history.push
   keyActions = {
+    'search': (k) => this.push(`/${k}`),
+
     'customer-search': (k) => this.push(`/${k}`),
     'customer-add': (k) => this.push(`/${k}`),
 
@@ -37,27 +38,27 @@ class SideMenu extends Component {
 
   render() {
     return (
-      <Sider theme='light'>
-        <Menu
-          defaultOpenKeys={['customer', 'card']}
-          defaultSelectedKeys={this.getLocationKey()}
-          mode='inline' onClick={this.handleClick}
-          >
-          <SubMenu key='customer' title={<span><Icon type='user' /><span>Customers</span></span>} >
-            <Menu.Item key='customer-search'>Search</Menu.Item>
-            <Menu.Item key='customer-add'>Add</Menu.Item>
-          </SubMenu>
-          <SubMenu key='card' title={<span><Icon type='gift' /><span>Gift Cards</span></span>} >
-            <Menu.Item key='card-search'>Search</Menu.Item>
-            <Menu.Item key='card-add'>Add</Menu.Item>
-          </SubMenu>
-          {/* <Menu.Item key='analytics'><span><Icon type='line-chart' /><span>Analytics</span></span></Menu.Item> */}
-          <Menu.Item key='reports'><span><Icon type='solution' /><span>Reports</span></span></Menu.Item>
-          <SubMenu key='settings' title={<span><Icon type='setting' /><span>Settings</span></span>} >
-            <Menu.Item key='settings-logout'>Sign out</Menu.Item>
-          </SubMenu>
-        </Menu>
-      </Sider>
+      <Menu
+        style={{height: '100%', paddingTop: '24px'}}
+        defaultOpenKeys={['customer', 'card']}
+        defaultSelectedKeys={this.getLocationKey()}
+        mode='inline' onClick={this.handleClick}
+        >
+        <Menu.Item key='search'><Icon type='search' /> Search</Menu.Item>
+        <SubMenu key='customer' title={<span><Icon type='user' /><span>Customers</span></span>} >
+          <Menu.Item key='customer-search'>Search</Menu.Item>
+          <Menu.Item key='customer-add'>Add</Menu.Item>
+        </SubMenu>
+        <SubMenu key='card' title={<span><Icon type='gift' /><span>Gift Cards</span></span>} >
+          <Menu.Item key='card-search'>Search</Menu.Item>
+          <Menu.Item key='card-add'>Add</Menu.Item>
+        </SubMenu>
+        {/* <Menu.Item key='analytics'><span><Icon type='line-chart' /><span>Analytics</span></span></Menu.Item> */}
+        <Menu.Item key='reports'><span><Icon type='solution' /><span>Reports</span></span></Menu.Item>
+        <SubMenu key='settings' title={<span><Icon type='setting' /><span>Settings</span></span>} >
+          <Menu.Item key='settings-logout'>Sign out</Menu.Item>
+        </SubMenu>
+      </Menu>
     )
   }
 
