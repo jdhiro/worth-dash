@@ -21,6 +21,7 @@ class SideMenu extends Component {
 
     'reports': (k) => this.push(`/${k}`),
 
+    'settings-stores': (k) => this.push(`/${k}`),
     'settings-logout': () => {
       sessionStorage.removeItem('token')
       this.props.history.push('/login')
@@ -40,11 +41,11 @@ class SideMenu extends Component {
     return (
       <Menu
         style={{height: '100%', paddingTop: '24px'}}
-        defaultOpenKeys={['customer', 'card']}
+        defaultOpenKeys={['customer', 'card', 'settings']}
         defaultSelectedKeys={this.getLocationKey()}
         mode='inline' onClick={this.handleClick}
         >
-        <Menu.Item key='search'><Icon type='search' /> Search</Menu.Item>
+        {/*<Menu.Item key='search'><Icon type='search' /> Search</Menu.Item>*/}
         <SubMenu key='customer' title={<span><Icon type='user' /><span>Customers</span></span>} >
           <Menu.Item key='customer-search'>Search</Menu.Item>
           <Menu.Item key='customer-add'>Add</Menu.Item>
@@ -56,6 +57,7 @@ class SideMenu extends Component {
         {/* <Menu.Item key='analytics'><span><Icon type='line-chart' /><span>Analytics</span></span></Menu.Item> */}
         <Menu.Item key='reports'><span><Icon type='solution' /><span>Reports</span></span></Menu.Item>
         <SubMenu key='settings' title={<span><Icon type='setting' /><span>Settings</span></span>} >
+          <Menu.Item key='settings-stores'>Manage stores</Menu.Item>
           <Menu.Item key='settings-logout'>Sign out</Menu.Item>
         </SubMenu>
       </Menu>

@@ -10,6 +10,8 @@ import CardAdd from './CardAdd'
 import Reports from './Reports'
 import SideMenu from './SideMenu'
 import SearchPage from './SearchPage'
+import SettingsStoresPage from './SettingsStores'
+
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
 import { Layout } from 'antd'
 import Exception from 'ant-design-pro/lib/Exception'
@@ -36,7 +38,7 @@ class Main extends Component {
     return(
 
       <Layout style={{height: '100vmin'}}>
-        <Header style={{backgroundColor: 'lightGrey'}}>Worth</Header>
+        <Header style={{backgroundColor: '#DDD'}}><h2>Worth</h2></Header>
         <Layout>
           <Sider theme='light' style={{height: '100%'}}>
             <SideMenu />
@@ -51,6 +53,7 @@ class Main extends Component {
                 <Route path='/card-search' component={CardSearch} />
                 <Route path='/card-add' component={CardAdd} />
                 <Route path='/reports' component={Reports} />
+                <Route path='/settings-stores' component={SettingsStoresPage}/>
                 <Route component={NotFound} />
               </Switch>
             </Content>

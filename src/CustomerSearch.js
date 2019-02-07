@@ -5,7 +5,6 @@ import { wfetch, NetworkError, ResponseError } from './utils/wfetch'
 import { message, Table, Input } from 'antd'
 const { Search } = Input
 
-
 class CustomerSearch extends Component {
   state = {
     query: '',
