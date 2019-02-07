@@ -18,6 +18,16 @@ export default class SettingsStoresPage extends React.Component {
     this.setState({ modalVisible: true, modalSelectedRecord: record})
   }
 
+  handleOk = (e) => {
+    e.preventDefault()
+    this.setState({ modalVisible: false, modalSelectedRecord: null})
+  }
+
+  handleCancel = (e) => {
+    e.preventDefault()
+    this.setState({ modalVisible: false, modalSelectedRecord: null})
+  }
+
   columns = [
     { title: 'ID', dataIndex: 'id' },
     { title: 'Username', dataIndex: 'username' },
@@ -33,6 +43,7 @@ export default class SettingsStoresPage extends React.Component {
 
     return(
       <div>
+      (This page doesn't work yet)
         <Table columns={this.columns} dataSource={this.state.accounts} rowKey='id' style={{ marginTop: '15px' }} />
         <Modal
           title='Change Password'
