@@ -23,6 +23,7 @@ class CustomerDetail extends Component {
     ce_firstName: '',
     ce_phoneNumber: '',
     ce_email: '',
+    ce_cardNumber: '',
     ba_amount: '',
     ba_description: '',
     ra_amount: '',
@@ -79,11 +80,13 @@ class CustomerDetail extends Component {
   }
 
   showEditCustomer = () => {
+    console.log(this.state.customer)
     this.setState({
       ce_firstName: this.state.customer.firstName,
       ce_lastName: this.state.customer.lastName,
       ce_phoneNumber: this.state.customer.phoneNumber,
       ce_email: this.state.customer.email,
+      ce_cardNumber: this.state.customer.cardNumber,
     })
     this.setState({ editCustomerVisible: true })
   }
@@ -104,6 +107,7 @@ class CustomerDetail extends Component {
       lastName: this.state.ce_lastName,
       phoneNumber: this.state.ce_phoneNumber,
       email: this.state.ce_email,
+      cardNumber: this.state.ce_cardNumber,
     }
     try {
       // Execute the web service call to update the customer
@@ -192,7 +196,7 @@ class CustomerDetail extends Component {
                   <Icon type='mail' /> {this.state.customer.email}<br />
                   Balance: {this.formatCurrency(this.state.customer.cashBalance)}<br />
                   Rewards: {this.state.customer.rewardBalance}<br />
-                  Linked gift cards: {this.state.customer.cardNumber}<br />
+                  Gift Card: {this.state.customer.cardNumber}<br />
                   <span style={{ fontSize: 'x-small', color: 'darkgrey' }}>Created {moment(this.state.customer.createdAt).format('lll')}</span><br />
                   <span style={{ fontSize: 'x-small', color: 'darkgrey' }}>Updated {moment(this.state.customer.updatedAt).format('lll')}</span><br />
                   <hr style={{ border: 'none', height: '1px', backgroundColor: '#AAA' }} />
@@ -256,7 +260,10 @@ class CustomerDetail extends Component {
               <Input type='text' name='ce_phoneNumber' value={this.state.ce_phoneNumber} onChange={this.handleChange} />
             </FormItem>
             <FormItem label='Email address'>
-              <Input atype='email' name='ce_email' value={this.state.ce_email} onChange={this.handleChange} />
+              <Input type='email' name='ce_email' value={this.state.ce_email} onChange={this.handleChange} />
+            </FormItem>
+            <FormItem label='Card number'>
+              <Input type='text' name='ce_cardNumber' value={this.state.ce_cardNumber} onChange={this.handleChange} />
             </FormItem>
             <FormItem style={{ display: 'none' }}>
               <Button htmlType='submit'>Submit</Button>
