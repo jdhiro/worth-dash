@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button, DatePicker, Table } from 'antd'
 import { wfetch, ResponseError } from './utils/wfetch'
 import { saveAs } from 'file-saver'
+import moment from 'moment'
 
 const { RangePicker } = DatePicker
 
@@ -50,6 +51,7 @@ class Reports extends Component {
         this.state.currentDateStrings = dateStrings
         let json = await response.json()
         this.setState({ results: json })
+        if (this.state.results.length === 0) this.setState({currentDateStrings: null})
       }
     } catch (err) {
       // TODO: Better error handling.
@@ -76,13 +78,25 @@ class Reports extends Component {
   }
 
   render() {
+    const ranges = {
+      today: [moment(), moment()],
+      yesterday: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+      week: [moment().subtract(1, 'week'), moment()]
+    }
     return (
       <div>
         <div>
-          <RangePicker onChange={this.onDateRangeChanged} /> <Button onClick={this.downloadCsvReport} disabled={!this.state.currentDateStrings}>Download report</Button>
+          <RangePicker allowClear='true' ranges={ranges} onChange={this.onDateRangeChanged} />
         </div>
 
-        <Table columns={this.columns} dataSource={this.state.results} rowKey='id' style={{ marginTop: '15px' }} />
+        <Table
+          columns={this.columns}
+          dataSource={this.state.results}
+          rowKey='id'
+          style={{ marginTop: '15px' }}
+          footer={() => <Button size='small' onClick={this.downloadCsvReport} disabled={!this.state.currentDateStrings}>Download report</Button>}
+        />
+
       </div>
     )
   }
