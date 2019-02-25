@@ -24,7 +24,7 @@ class CardAddForm extends Component {
     form.validateFields(async (err, values) => {
       if (!err) {
         this.setState({loading: true})
-        let cards = values.cardNumbers
+        let cards = values.cardnumbers
         cards = cards.replace(/[^A-Za-z0-9,]/g,'') // Remove all funny characters
         cards = cards.split(',') // Split into array at the commas
         cards = cards.filter(a => a !== '') // Filter out any empty values
@@ -54,14 +54,14 @@ class CardAddForm extends Component {
       getFieldDecorator, getFieldsError, getFieldError, isFieldTouched,
     } = this.props.form;
 
-    const userNameError = isFieldTouched('cardNumbers') && getFieldError('cardNumbers')
+    const userNameError = isFieldTouched('cardnumbers') && getFieldError('cardnumbers')
     const passwordError = isFieldTouched('amount') && getFieldError('amount')
     return (
       <div>
         <h1>Add Gift Cards</h1>
         <Form onSubmit={this.handleSubmit} layout="vertical">
           <Form.Item validateStatus={userNameError ? 'error' : ''} help={userNameError || ''} label='Gift card numbers (comma seperated)'>
-            {getFieldDecorator('cardNumbers', {
+            {getFieldDecorator('cardnumbers', {
               rules: [{
                 required: true,
                 type:'string',

@@ -19,11 +19,11 @@ class CustomerDetail extends Component {
     customer: {},
     editCustomerVisible: false,
     editCustomerInProgress: false,
-    ce_lastName: '',
-    ce_firstName: '',
-    ce_phoneNumber: '',
+    ce_lastname: '',
+    ce_firstname: '',
+    ce_phonenumber: '',
     ce_email: '',
-    ce_cardNumber: '',
+    ce_cardnumber: '',
     ba_amount: '',
     ba_description: '',
     ra_amount: '',
@@ -38,11 +38,11 @@ class CustomerDetail extends Component {
       render: (v) => this.formatCurrency(v)
     },
     { title: 'Description', dataIndex: 'description' },
-    { title: 'CreatedBy', dataIndex: 'createdBy'},
+    { title: 'CreatedBy', dataIndex: 'createdby'},
     {
       title: 'CreatedAt',
-      dataIndex: 'createdAt',
-      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+      dataIndex: 'createdat',
+      sorter: (a, b) => new Date(a.createdat) - new Date(b.createdat),
       defaultSortOrder: 'descend',
       render: (v) => moment(v).format('lll')
     }
@@ -52,11 +52,11 @@ class CustomerDetail extends Component {
     { title: 'ID', dataIndex: 'id' },
     { title: 'Amount', dataIndex: 'amount' },
     { title: 'Description', dataIndex: 'description' },
-    { title: 'CreatedBy', dataIndex: 'createdBy'},
+    { title: 'CreatedBy', dataIndex: 'createdby'},
     {
       title: 'CreatedAt',
-      dataIndex: 'createdAt',
-      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+      dataIndex: 'createdat',
+      sorter: (a, b) => new Date(a.createdat) - new Date(b.createdat),
       defaultSortOrder: 'descend',
       render: (v) => moment(v).format('lll')
     }
@@ -82,11 +82,11 @@ class CustomerDetail extends Component {
   showEditCustomer = () => {
     console.log(this.state.customer)
     this.setState({
-      ce_firstName: this.state.customer.firstName,
-      ce_lastName: this.state.customer.lastName,
-      ce_phoneNumber: this.state.customer.phoneNumber,
+      ce_firstname: this.state.customer.firstname,
+      ce_lastname: this.state.customer.lastname,
+      ce_phonenumber: this.state.customer.phonenumber,
       ce_email: this.state.customer.email,
-      ce_cardNumber: this.state.customer.cardNumber,
+      ce_cardnumber: this.state.customer.cardnumber,
     })
     this.setState({ editCustomerVisible: true })
   }
@@ -103,11 +103,11 @@ class CustomerDetail extends Component {
     this.setState({ editCustomerInProgress: true })
     // Build the data object to send in the body
     const body = {
-      firstName: this.state.ce_firstName,
-      lastName: this.state.ce_lastName,
-      phoneNumber: this.state.ce_phoneNumber,
+      firstname: this.state.ce_firstname,
+      lastname: this.state.ce_lastname,
+      phonenumber: this.state.ce_phonenumber,
       email: this.state.ce_email,
-      cardNumber: this.state.ce_cardNumber,
+      cardnumber: this.state.ce_cardnumber,
     }
     try {
       // Execute the web service call to update the customer
@@ -129,7 +129,7 @@ class CustomerDetail extends Component {
   submitBalanceAdjustment = async (e) => {
     e.preventDefault()
     const body = {
-      customerId: this.state.customer.id,
+      customerid: this.state.customer.id,
       credit: 0,
       debit: 0,
       description: this.state.ba_description,
@@ -156,7 +156,7 @@ class CustomerDetail extends Component {
   submitRewardAdjustment = async (e) => {
     e.preventDefault()
     const body = {
-      customerId: this.state.customer.id,
+      customerid: this.state.customer.id,
       amount: this.state.ra_amount,
       description: this.state.ra_description
     }
@@ -191,14 +191,14 @@ class CustomerDetail extends Component {
               <Row>
                 <Col span={3}><Avatar size='large' icon='user' /></Col>
                 <Col span={21}>
-                  <span style={{ fontSize: 'x-large' }}>{this.state.customer.firstName} {this.state.customer.lastName}</span><br />
-                  <Icon type='phone' /> {this.state.customer.phoneNumber}<br />
+                  <span style={{ fontSize: 'x-large' }}>{this.state.customer.firstname} {this.state.customer.lastname}</span><br />
+                  <Icon type='phone' /> {this.state.customer.phonenumber}<br />
                   <Icon type='mail' /> {this.state.customer.email}<br />
-                  Balance: {this.formatCurrency(this.state.customer.cashBalance)}<br />
-                  Rewards: {this.state.customer.rewardBalance}<br />
-                  Gift Card: {this.state.customer.cardNumber}<br />
-                  <span style={{ fontSize: 'x-small', color: 'darkgrey' }}>Created {moment(this.state.customer.createdAt).format('lll')}</span><br />
-                  <span style={{ fontSize: 'x-small', color: 'darkgrey' }}>Updated {moment(this.state.customer.updatedAt).format('lll')}</span><br />
+                  Balance: {this.formatCurrency(this.state.customer.cashbalance)}<br />
+                  Rewards: {this.state.customer.rewardbalance}<br />
+                  Gift Card: {this.state.customer.cardnumber}<br />
+                  <span style={{ fontSize: 'x-small', color: 'darkgrey' }}>Created {moment(this.state.customer.createdat).format('lll')}</span><br />
+                  <span style={{ fontSize: 'x-small', color: 'darkgrey' }}>Updated {moment(this.state.customer.updatedat).format('lll')}</span><br />
                   <hr style={{ border: 'none', height: '1px', backgroundColor: '#AAA' }} />
                   <Button onClick={this.showEditCustomer}>Edit</Button>
                 </Col>
@@ -251,19 +251,19 @@ class CustomerDetail extends Component {
         <Modal title={'Edit Customer'} visible={this.state.editCustomerVisible} onOk={this.submitEditCustomer} onCancel={this.closeEditCustomer} confirmLoading={this.state.editCustomerInProgress}>
           <Form onSubmit={this.submitEditCustomer}>
             <FormItem label='First name'>
-              <Input type='text' name='ce_firstName' value={this.state.ce_firstName} onChange={this.handleChange} />
+              <Input type='text' name='ce_firstname' value={this.state.ce_firstname} onChange={this.handleChange} />
             </FormItem>
             <FormItem label='Last name'>
-              <Input type='text' name='ce_lastName' value={this.state.ce_lastName} onChange={this.handleChange} />
+              <Input type='text' name='ce_lastname' value={this.state.ce_lastname} onChange={this.handleChange} />
             </FormItem>
             <FormItem label='Phone number'>
-              <Input type='text' name='ce_phoneNumber' value={this.state.ce_phoneNumber} onChange={this.handleChange} />
+              <Input type='text' name='ce_phonenumber' value={this.state.ce_phonenumber} onChange={this.handleChange} />
             </FormItem>
             <FormItem label='Email address'>
               <Input type='email' name='ce_email' value={this.state.ce_email} onChange={this.handleChange} />
             </FormItem>
             <FormItem label='Card number'>
-              <Input type='text' name='ce_cardNumber' value={this.state.ce_cardNumber} onChange={this.handleChange} />
+              <Input type='text' name='ce_cardnumber' value={this.state.ce_cardnumber} onChange={this.handleChange} />
             </FormItem>
             <FormItem style={{ display: 'none' }}>
               <Button htmlType='submit'>Submit</Button>

@@ -20,8 +20,8 @@ class CustomerAdd extends Component {
     try {
       const values = await form.validateFields()
       v = {...values}
-      if (v.phoneNumber !== null) {
-        v.phoneNumber = v.phoneNumber.replace(/[^0-9]/g,'')
+      if (v.phonenumber !== null) {
+        v.phonenumber = v.phonenumber.replace(/[^0-9]/g,'')
       }
     } catch (err) {
       this.setState({ submitting: false })
@@ -34,7 +34,7 @@ class CustomerAdd extends Component {
             throw Error(response.statusText)
         }
         const responseBody = await response.json()
-        this.props.history.push(`/customer/${responseBody.customerId}`)
+        this.props.history.push(`/customer/${responseBody.customerid}`)
       } catch (err) {
         message.error('There was an error creating the user.')
         this.setState({ submitting: false })
@@ -49,7 +49,7 @@ class CustomerAdd extends Component {
         <h1>Add New Customer</h1>
         <Form onSubmit={this.submitNewCustomer} className='login-form'>
           <FormItem>
-            {getFieldDecorator('firstName', {
+            {getFieldDecorator('firstname', {
               rules: [{
                 required: true,
                 message: 'Please enter a first name.',
@@ -61,7 +61,7 @@ class CustomerAdd extends Component {
           </FormItem>
 
           <FormItem>
-            {getFieldDecorator('lastName', {
+            {getFieldDecorator('lastname', {
               rules: [{
                 required: true,
                 message: 'Please enter a last name.',
@@ -73,7 +73,7 @@ class CustomerAdd extends Component {
           </FormItem>
 
           <FormItem>
-            {getFieldDecorator('phoneNumber', {
+            {getFieldDecorator('phonenumber', {
               rules: [{
                 required: false,
                 type: 'string',

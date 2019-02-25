@@ -22,9 +22,9 @@ class Reports extends Component {
     ) },
     {
       title: 'Time (UTC)',
-      dataIndex: 'createdAt',
+      dataIndex: 'createdat',
       sortDirections: ['ascend' | 'descend'],
-      sorter: (a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt)
+      sorter: (a, b) => Date.parse(a.createdat) - Date.parse(b.createdat)
     },
     { // TODO: Remove these hard coded values later...
       filters: [
@@ -33,11 +33,11 @@ class Reports extends Component {
         {text: 'Slater', value: '3',}
       ],
       title: 'Location',
-      dataIndex: 'createdBy',
-      onFilter: (value, record) => record.createdBy.indexOf(value) === 0,
+      dataIndex: 'createdby',
+      onFilter: (value, record) => record.createdby.indexOf(value) === 0,
     },
-    { title: 'Customer', dataIndex: 'customerId', render: (text, record) => (
-      <Link to={'customer/' + record.customerId}>{text}</Link>
+    { title: 'Customer', dataIndex: 'customerid', render: (text, record) => (
+      <Link to={'customer/' + record.customerid}>{text}</Link>
     ) },
     { title: 'Description', dataIndex: 'description' }
   ]

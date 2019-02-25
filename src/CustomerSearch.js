@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/browser'
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { wfetch, NetworkError, ResponseError } from './utils/wfetch'
-import { message, Table, Input } from 'antd'
+import { Alert, message, Table, Input } from 'antd'
 const { Search } = Input
 
 class CustomerSearch extends Component {
@@ -13,9 +13,9 @@ class CustomerSearch extends Component {
 
   columns = [
     { title: 'ID', dataIndex: 'id' },
-    { title: 'First name', dataIndex: 'firstName' },
-    { title: 'Last name', dataIndex: 'lastName' },
-    { title: 'Phone', dataIndex: 'phoneNumber' },
+    { title: 'First name', dataIndex: 'firstname' },
+    { title: 'Last name', dataIndex: 'lastname' },
+    { title: 'Phone', dataIndex: 'phonenumber' },
     { title: 'Action', key: 'action', render: (text, record) => (
       <span>
         <Link to={'customer/' + record.id}>View details</Link>
@@ -49,8 +49,14 @@ class CustomerSearch extends Component {
   render() {
     return (
       <div>
-        <h1>Search for Customer</h1>
+        <h1>Search for customer account</h1>
         <Search size='large' placeholder='Search for last name, first name, or phone number' enterButton onSearch={this.handleSubmit} />
+        <Alert
+          message='Search for a gift card by prefixing the number with "#". Search for an account ID by prefixing with "@".'
+          type="info"
+          showIcon
+           style={{ marginTop: '15px' }}
+        />
         <Table columns={this.columns} dataSource={this.state.results} rowKey='id' style={{ marginTop: '15px' }} />
       </div>
     )

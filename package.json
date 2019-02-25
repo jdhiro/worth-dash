@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@sentry/browser": "^4.5.3",
+    "@sentry/browser": "^4.6.3",
     "ant-design-pro": "^1.4.4",
-    "antd": "^3.13.1",
+    "antd": "^3.13.6",
     "express": "^4.16.4",
-    "file-saver": "^2.0.0",
+    "file-saver": "^2.0.1",
     "moment": "^2.24.0",
-    "react": "^16.8.1",
-    "react-dom": "^16.8.1",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1"
   },
@@ -29,6 +29,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "pm2": "^3.2.9"
+    "pm2": "^3.3.1"
   }
 }
