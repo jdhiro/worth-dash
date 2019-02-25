@@ -85,6 +85,7 @@ class Reports extends Component {
     }
     return (
       <div>
+      <h1>Reports</h1>
         <div>
           <RangePicker allowClear='true' ranges={ranges} onChange={this.onDateRangeChanged} />
         </div>

@@ -58,7 +58,7 @@ class CardAddForm extends Component {
     const passwordError = isFieldTouched('amount') && getFieldError('amount')
     return (
       <div>
-        <h1>Add Gift Cards</h1>
+        <h1>Add card</h1>
         <Form onSubmit={this.handleSubmit} layout="vertical">
           <Form.Item validateStatus={userNameError ? 'error' : ''} help={userNameError || ''} label='Gift card numbers (comma seperated)'>
             {getFieldDecorator('cardnumbers', {

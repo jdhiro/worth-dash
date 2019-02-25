@@ -5,7 +5,6 @@ import Login from './Login'
 import CustomerSearch from './CustomerSearch'
 import CustomerAdd from './CustomerAdd'
 import CustomerDetail from './CustomerDetail'
-import CardSearch from './CardSearch'
 import CardAdd from './CardAdd'
 import Reports from './Reports'
 import SideMenu from './SideMenu'
@@ -49,7 +48,6 @@ class Main extends Component {
                 <PrivateRoute path='/customer-search' component={CustomerSearch} />
                 <PrivateRoute path='/customer-add' component={CustomerAdd} />
                 <PrivateRoute path='/customer/:id' component={CustomerDetail} />
-                <PrivateRoute path='/card-search' component={CardSearch} />
                 <PrivateRoute path='/card-add' component={CardAdd} />
                 <PrivateRoute path='/reports' component={Reports} />
                 <PrivateRoute path='/settings-stores' component={SettingsStoresPage}/>

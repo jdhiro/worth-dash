@@ -46,7 +46,7 @@ class CustomerAdd extends Component {
     const { getFieldDecorator } = this.props.form
     return (
       <div>
-        <h1>Add New Customer</h1>
+        <h1>Add customer</h1>
         <Form onSubmit={this.submitNewCustomer} className='login-form'>
           <FormItem>
             {getFieldDecorator('firstname', {
