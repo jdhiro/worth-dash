@@ -52,6 +52,7 @@ class CustomerAdd extends Component {
             {getFieldDecorator('firstname', {
               rules: [{
                 required: true,
+                pattern: /^[A-z-']+$/,
                 message: 'Please enter a first name.',
                 whitespace: true
               }],
@@ -64,6 +65,7 @@ class CustomerAdd extends Component {
             {getFieldDecorator('lastname', {
               rules: [{
                 required: true,
+                pattern: /^[A-z-']+$/,
                 message: 'Please enter a last name.',
                 whitespace: true
               }],
