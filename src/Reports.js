@@ -4,6 +4,7 @@ import { Button, DatePicker, Table } from 'antd'
 import { wfetch, ResponseError } from './utils/wfetch'
 import { saveAs } from 'file-saver'
 import moment from 'moment'
+import { DateTime } from 'luxon'
 
 const { RangePicker } = DatePicker
 
@@ -21,10 +22,13 @@ class Reports extends Component {
       new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(text/100)
     ) },
     {
-      title: 'Time (UTC)',
+      title: 'Time',
       dataIndex: 'createdat',
       sortDirections: ['ascend' | 'descend'],
-      sorter: (a, b) => Date.parse(a.createdat) - Date.parse(b.createdat)
+      sorter: (a, b) => Date.parse(a.createdat) - Date.parse(b.createdat),
+      render: (text, record) => (
+        DateTime.fromISO(text).toLocaleString({ timeZoneName: 'short', ...DateTime.DATETIME_MED })
+      )
     },
     { // TODO: Remove these hard coded values later...
       filters: [

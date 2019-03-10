@@ -52,7 +52,7 @@ class CustomerSearch extends Component {
         <h1>Search for customer account</h1>
         <Search size='large' placeholder='Search for last name, first name, or phone number' enterButton onSearch={this.handleSubmit} />
         <Alert
-          message='Search for a gift card by prefixing the number with "#". Search for an account ID by prefixing with "@".'
+          message='Search for a gift card by prefixing the number with "#".'
           type="info"
           showIcon
            style={{ marginTop: '15px' }}
