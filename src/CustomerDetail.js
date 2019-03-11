@@ -19,6 +19,7 @@ class CustomerDetail extends Component {
     customer: {},
     editCustomerVisible: false,
     editCustomerInProgress: false,
+    validateStatus: 'validating',
     // customer editing variables
     ce_lastname: '',
     ce_firstname: '',
@@ -132,6 +133,15 @@ class CustomerDetail extends Component {
 
   submitBalanceAdjustment = async (e) => {
     e.preventDefault()
+
+    if (this.state.ba_description === '') {
+      this.setState({validateStatus: 'error'})
+      message.info('Description required')
+      return
+    } else {
+      this.setState({validateStatus: 'validating'})
+    }
+
     const body = {
       customerid: this.state.customer.id,
       credit: 0,
@@ -218,28 +228,24 @@ class CustomerDetail extends Component {
                 <Card>
                   <Form layout='inline' onSubmit={this.submitBalanceAdjustment}>
 
-
-
-
                     <FormItem label='Credit'>
                       {/* InputNumber doesn't pass events like Input, so we can't set state by name */}
                       <InputNumber step={1} precision={2} size={10} min={0} value={this.state.ba_credit} onChange={(v) => this.setState({ ba_credit: v })} />
                     </FormItem>
-
 
                     <FormItem label='Debit'>
                       {/* InputNumber doesn't pass events like Input, so we can't set state by name */}
                       <InputNumber step={1} precision={2} size={10} min={0} value={this.state.ba_debit} onChange={(v) => this.setState({ ba_debit: v })} />
                     </FormItem>
 
-
-
-                    <FormItem label='Description'>
+                    <FormItem label='Description' required={true} validateStatus={this.state.validateStatus}>
                       <Input name='ba_description' value={this.state.ba_description} onChange={this.handleChange} />
                     </FormItem>
+
                     <FormItem>
                       <Button htmlType='submit' type='primary'>Submit</Button>
                     </FormItem>
+
                   </Form>
                 </Card>
                 <br />
