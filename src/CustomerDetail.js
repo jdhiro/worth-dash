@@ -19,13 +19,17 @@ class CustomerDetail extends Component {
     customer: {},
     editCustomerVisible: false,
     editCustomerInProgress: false,
+    // customer editing variables
     ce_lastname: '',
     ce_firstname: '',
     ce_phonenumber: '',
     ce_email: '',
     ce_cardnumber: '',
-    ba_amount: '',
+    // balance adjustment variables
+    ba_credit: '',
+    ba_debit: '',
     ba_description: '',
+    // reward adjustment variables
     ra_amount: '',
     ra_description: '',
   }
@@ -134,10 +138,11 @@ class CustomerDetail extends Component {
       debit: 0,
       description: this.state.ba_description,
     }
-    if (this.state.ba_amount > 0) {
-      body.credit = this.state.ba_amount * 100
-    } else if (this.state.ba_amount < 0) {
-      body.debit = Math.abs(this.state.ba_amount) * 100
+    if (this.state.ba_credit > 0) {
+      body.credit = Math.round(parseFloat(this.state.ba_credit) * 100)
+    }
+    if (this.state.ba_debit > 0) {
+      body.debit = Math.round(parseFloat(this.state.ba_debit) * 100)
     }
     try {
       // Execute the web service call to update the customer
@@ -146,7 +151,7 @@ class CustomerDetail extends Component {
           throw Error(response.statusText)
       }
       await Promise.all([this.getHistory(), this.getCustomer()])
-      this.setState({ ba_amount: '', ba_description: '' })
+      this.setState({ ba_credit: '', ba_debit: '', ba_description: '' })
     } catch(err) {
       console.log(err)
       message.error('There was an error updating the user.')
@@ -212,10 +217,23 @@ class CustomerDetail extends Component {
               <TabPane tab='Balance adjustment' key='1'>
                 <Card>
                   <Form layout='inline' onSubmit={this.submitBalanceAdjustment}>
-                    <FormItem label='Amount'>
+
+
+
+
+                    <FormItem label='Credit'>
                       {/* InputNumber doesn't pass events like Input, so we can't set state by name */}
-                      <InputNumber step={1} precision={2} size={10} value={this.state.ba_amount} onChange={(v) => this.setState({ ba_amount: v })} />
+                      <InputNumber step={1} precision={2} size={10} min={0} value={this.state.ba_credit} onChange={(v) => this.setState({ ba_credit: v })} />
                     </FormItem>
+
+
+                    <FormItem label='Debit'>
+                      {/* InputNumber doesn't pass events like Input, so we can't set state by name */}
+                      <InputNumber step={1} precision={2} size={10} min={0} value={this.state.ba_debit} onChange={(v) => this.setState({ ba_debit: v })} />
+                    </FormItem>
+
+
+
                     <FormItem label='Description'>
                       <Input name='ba_description' value={this.state.ba_description} onChange={this.handleChange} />
                     </FormItem>
