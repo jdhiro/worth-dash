@@ -172,7 +172,7 @@ class CustomerDetail extends Component {
     e.preventDefault()
     const body = {
       customerid: this.state.customer.id,
-      amount: this.state.ra_amount,
+      amount: -this.state.ra_amount,
       description: this.state.ra_description
     }
     try {
