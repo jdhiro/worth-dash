@@ -45,9 +45,9 @@ class CustomerDetail extends Component {
     { title: 'Description', dataIndex: 'description' },
     { title: 'CreatedBy', dataIndex: 'createdby'},
     {
-      title: 'CreatedAt',
-      dataIndex: 'createdat',
-      sorter: (a, b) => new Date(a.createdat) - new Date(b.createdat),
+      title: 'Time',
+      dataIndex: 'created_at',
+      sorter: (a, b) => new Date(a.created_at) - new Date(b.created_at),
       defaultSortOrder: 'descend',
       render: (v) => moment(v).format('lll')
     }
@@ -212,7 +212,7 @@ class CustomerDetail extends Component {
                   Balance: {this.formatCurrency(this.state.customer.cashbalance)}<br />
                   Rewards: {this.state.customer.rewardbalance}<br />
                   Gift Card: {this.state.customer.cardnumber}<br />
-                  <span style={{ fontSize: 'x-small', color: 'darkgrey' }}>Created {moment(this.state.customer.createdat).format('lll')}</span><br />
+                  <span style={{ fontSize: 'x-small', color: 'darkgrey' }}>Created {moment(this.state.customer.created_at).format('lll')}</span><br />
                   <span style={{ fontSize: 'x-small', color: 'darkgrey' }}>Updated {moment(this.state.customer.updatedat).format('lll')}</span><br />
                   <hr style={{ border: 'none', height: '1px', backgroundColor: '#AAA' }} />
                   <Button onClick={this.showEditCustomer}>Edit</Button>
