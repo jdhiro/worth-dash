@@ -23,9 +23,9 @@ class Reports extends Component {
     ) },
     {
       title: 'Time',
-      dataIndex: 'createdat',
+      dataIndex: 'created_at',
       sortDirections: ['ascend' | 'descend'],
-      sorter: (a, b) => Date.parse(a.createdat) - Date.parse(b.createdat),
+      sorter: (a, b) => Date.parse(a.created_at) - Date.parse(b.created_at),
       render: (text, record) => (
         DateTime.fromISO(text).toLocaleString({ timeZoneName: 'short', ...DateTime.DATETIME_MED })
       )
