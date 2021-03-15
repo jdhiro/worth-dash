@@ -11,12 +11,14 @@ import SideMenu from './SideMenu'
 import SettingsStoresPage from './SettingsStores'
 import ReactGA from 'react-ga'
 
-ReactGA.initialize('255687558')
-ReactGA.pageview(window.location.pathname + window.location.search)
-
 import { BrowserRouter as Router, Redirect, Route, Switch, Link } from 'react-router-dom'
 import { Layout } from 'antd'
 import Exception from 'ant-design-pro/lib/Exception'
+
+ReactGA.initialize('255687558')
+ReactGA.pageview(window.location.pathname + window.location.search)
+
+
 
 const { Header, Content, Sider } = Layout
 
