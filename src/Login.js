@@ -1,112 +1,69 @@
-import './Login.css';
-import React, { Component } from 'react'
-import { message, Button, Card, Col, Form, Icon, Input, Row } from 'antd'
-import { wfetch, NetworkError, ResponseError } from './utils/wfetch'
+import React, { useState } from 'react'
+import { message, Button, Card, Col, Form, Input, Row } from 'antd'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import * as Sentry from '@sentry/browser'
+import ax from './utils/axios'
 
-const FormItem = Form.Item
+function Login(props) {
 
-class Login extends Component {
+  const handleFinish = async values => {
 
-  state = {
-    submitting: false
-  }
-
-  handleSubmit = async (e) => {
-    e.preventDefault()
-    this.setState({ submitting: true })
-
-    const form = this.props.form
-    let v = null
+    // FIXME: This is a login hack to prevent the store from logging
+    // into the UCL dashboard. Remove this after migration is complete.
+    if (values.username === 'ucljuanita' || values.username === 'uclslater') {
+      message.info('Not a valid admin acount', 5)
+      return
+    }
 
     try {
-      const values = await form.validateFields()
-      v = {...values}
-      // FIXME: This is a login hack to prevent the store from logging
-      // into the UCL dashboard. Remove this after migration is complete.
-      if (v.username === 'ucljuanita' || v.username === 'uclslater') {
-        v = null
-        message.info('Not a valid admin acount', 5)
-      }
-    } catch (err) {
-      Sentry.captureException(err)
-      this.setState({ submitting: false })
+      const response = await ax.post('/auth', values)
+      sessionStorage.setItem('token', response.data.token)
+      ax.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token
+      props.history.push('/customer-search')
+    } catch (e) {
+      if (e.response.status === 401) message.info('Unauthorized username and password.', 5)
+      else if (e.response.status === 500) message.info('Server error.', 5)
+      else message.info('Network error, please check your connection.', 5)
+      console.error(e.response.status)
+      Sentry.captureException(e)
     }
-
-    if (v !== null) {
-      const urlParams = new URLSearchParams(Object.entries(v))
-      try {
-        const response = await wfetch({ path: '/auth', method: 'POST', body: v })
-        if (!response.ok) {
-          throw new ResponseError('', response)
-        } else {
-          const responseBody = await response.json()
-          sessionStorage.setItem('token', responseBody.token)
-          this.props.history.push('/customer-search')
-        }
-      } catch (err) {
-        if (err instanceof ResponseError) {
-          if (err.res.status === 401) {
-            message.info('Unauthorized username and password.', 5)
-          } else if (err.res.status === 500) {
-            message.info('Server error.', 5)
-          }
-        } else if (err instanceof NetworkError) {
-          message.info('Network error, please check your connection.', 5)
-        }
-        Sentry.captureException(err)
-        this.setState({ submitting: false })
-      }
-    }
-
   }
 
-  render() {
-    const { getFieldDecorator } = this.props.form
-    const usernameOpts = {
-      rules: [
-        {
-          required: true,
-          message: 'Please enter your username.'
-        }
-      ]
-    }
-    const passwordOpts = {
-      rules: [
-        {
-          required: true,
-          message: 'Please enter your password.'
-        }
-      ]
-    }
+  return (
+    <Row style={{ minHeight: '100vh' }} justify='space-around' align='middle'>
+      <Col span={8}>
+        <Card>
+          <Form
+            size={"large"}
+            onFinish={handleFinish}
+          >
+            <Form.Item
+              name="username"
+              rules={[{ required: true, message: 'Please input your Username!' }]}
+            >
+              <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+            </Form.Item>
+            <Form.Item
+              name="password"
+              rules={[{ required: true, message: 'Please input your Password!' }]}
+            >
+              <Input
+                prefix={<LockOutlined className="site-form-item-icon" />}
+                type="password"
+                placeholder="Password"
+              />
+            </Form.Item>
+            <Form.Item>
+              <Button block type="primary" htmlType="submit" className="login-form-button">
+                Log in
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      </Col>
+    </Row>
+  )
 
-    return (
-      <Row className='login-background' style={{ minHeight: '100vh' }} type='flex' justify='center' align='middle'>
-        <Col span={8}>
-          <center style={{ fontWeight: 100, color: 'white', fontSize: 'xx-large' }}>Welcome</center>
-          <Card style={{ backgroundColor: 'rgba(255, 255, 255, 0.25)', border: 0, borderRadius: '15px' }}>
-            <Form onSubmit={this.handleSubmit} className='login-form'>
-              <FormItem>
-                {getFieldDecorator('username', usernameOpts)(
-                  <Input prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />} type='text' placeholder='Username' />
-                )}
-              </FormItem>
-              <FormItem>
-                {getFieldDecorator('password', passwordOpts)(
-                  <Input prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />} type='password' placeholder='Password' />
-                )}
-              </FormItem>
-              <FormItem>
-                <Button block type='primary' htmlType='submit' loading={this.state.submitting}>
-                  Sign In
-                </Button>
-              </FormItem>
-            </Form>
-          </Card>
-        </Col>
-      </Row>
-    )
-  }
 }
 
-export default Form.create()(Login)
+export default Login

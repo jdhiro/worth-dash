@@ -1,19 +1,33 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import { wfetch, wget, wpost, wput } from './utils/wfetch'
 import moment from 'moment'
-import { message, Icon, Avatar, Row, Col, Button, Card, Form, Input, InputNumber, Modal, Table, Tabs } from 'antd'
+import { message, Avatar, Row, Col, Button, Card, Form, Input, InputNumber, Modal, Table, Tabs } from 'antd'
+import { useParams } from "react-router-dom"
+import { Icon } from '@ant-design/compatible'
 const TabPane = Tabs.TabPane
 const FormItem = Form.Item
 
-class CustomerDetail extends Component {
-  constructor(props) {
-    super(props)
-    this.id = props.match.params.id
-    this.getHistory()
-    this.getCustomer()
-  }
+function CustomerDetail(props) {
 
-  state = {
+
+
+  let { id } = useParams()
+
+
+  useEffect(() => {
+    getHistory()
+    getCustomer()
+  }, [])
+
+
+
+  const [form] = Form.useForm()
+
+  let [transactionHistory, setTransactionHistory] = useState([])
+  let [rewardHistory, setRewardHistory] = useState([])
+  let [customer, setCustomer] = useState({})
+
+  var state = {
     transactionHistory: [],
     rewardHistory: [],
     customer: {},
@@ -35,7 +49,7 @@ class CustomerDetail extends Component {
     ra_description: '',
   }
 
-  balanceColumns = [
+  let balanceColumns = [
     { title: 'ID', dataIndex: 'id' },
     {
       title: 'Amount',
@@ -53,7 +67,7 @@ class CustomerDetail extends Component {
     }
   ]
 
-  rewardColumns = [
+  let rewardColumns = [
     { title: 'ID', dataIndex: 'id' },
     { title: 'Amount', dataIndex: 'amount' },
     { title: 'Description', dataIndex: 'description' },
@@ -67,24 +81,22 @@ class CustomerDetail extends Component {
     }
   ]
 
-  getHistory = async () => {
-    const response = await wget(`/customer/${this.id}/history`)
+  const getHistory = async () => {
+    const response = await wget(`/customer/${id}/history`)
     const json = await response.json()
 
-    this.setState({
-      transactionHistory: json.creditTransactions,
-      rewardHistory:json.rewardTransactions
-    })
+    setTransactionHistory(json.creditTransactions)
+    setRewardHistory(json.rewardTransactions)
   }
 
-  getCustomer = async () => {
-    let response = await wget(`/customer/${this.id}`)
+  const getCustomer = async () => {
+    let response = await wget(`/customer/${id}`)
     let json = await response.json()
 
-    this.setState({ customer: json })
+    setCustomer(json)
   }
 
-  showEditCustomer = () => {
+  const showEditCustomer = () => {
     console.log(this.state.customer)
     this.setState({
       ce_firstname: this.state.customer.firstname,
@@ -96,13 +108,13 @@ class CustomerDetail extends Component {
     this.setState({ editCustomerVisible: true })
   }
 
-  closeEditCustomer = () => {
+  const closeEditCustomer = () => {
     if(!this.state.editCustomerInProgress) {
       this.setState({ editCustomerVisible: false })
     }
   }
 
-  submitEditCustomer = async (e) => {
+  const submitEditCustomer = async (e) => {
     e.preventDefault()
     // The state of the form to "in progress" so that it can't be closed during the request
     this.setState({ editCustomerInProgress: true })
@@ -131,7 +143,7 @@ class CustomerDetail extends Component {
     }
   }
 
-  submitBalanceAdjustment = async (e) => {
+  const submitBalanceAdjustment = async (e) => {
     e.preventDefault()
 
     if (this.state.ba_description === '') {
@@ -168,7 +180,7 @@ class CustomerDetail extends Component {
     }
   }
 
-  submitRewardAdjustment = async (e) => {
+  const submitRewardAdjustment = async (e) => {
     e.preventDefault()
     const body = {
       customerid: this.state.customer.id,
@@ -189,114 +201,113 @@ class CustomerDetail extends Component {
     }
   }
 
-  handleChange = (e) => {
+  const handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  formatCurrency = (cents) => (cents / 100).toLocaleString('en-US', {style:'currency', currency:'USD'})
+  const formatCurrency = (cents) => (cents / 100).toLocaleString('en-US', {style:'currency', currency:'USD'})
 
 
 
-  render() {
-    return (
-      <div>
-        <Row gutter={16} style={{ marginBottom: 8 }}>
-          <Col span={24}>
-            <Card>
-              <Row>
-                <Col span={3}><Avatar size='large' icon='user' /></Col>
-                <Col span={21}>
-                  <span style={{ fontSize: 'x-large' }}>{this.state.customer.firstname} {this.state.customer.lastname}</span><br />
-                  <Icon type='phone' /> {this.state.customer.phonenumber}<br />
-                  <Icon type='mail' /> {this.state.customer.email}<br />
-                  Balance: {this.formatCurrency(this.state.customer.cashbalance)}<br />
-                  Rewards: {this.state.customer.rewardbalance}<br />
-                  Gift Card: {this.state.customer.cardnumber}<br />
-                  <span style={{ fontSize: 'x-small', color: 'darkgrey' }}>Created {moment(this.state.customer.created_at).format('lll')}</span><br />
-                  <span style={{ fontSize: 'x-small', color: 'darkgrey' }}>Updated {moment(this.state.customer.updated_at).format('lll')}</span><br />
-                  <hr style={{ border: 'none', height: '1px', backgroundColor: '#AAA' }} />
-                  <Button onClick={this.showEditCustomer}>Edit</Button>
-                </Col>
-              </Row>
-            </Card>
-          </Col>
-        </Row>
-        <Row  gutter={16} style={{ marginBottom: 8 }}>
-          <Col span={24}>
-            <Tabs defaultActiveKey='1'>
-              <TabPane tab='Balance adjustment' key='1'>
-                <Card>
-                  <Form layout='inline' onSubmit={this.submitBalanceAdjustment}>
 
-                    <FormItem label='Credit'>
-                      {/* InputNumber doesn't pass events like Input, so we can't set state by name */}
-                      <InputNumber step={1} precision={2} size={10} min={0} value={this.state.ba_credit} onChange={(v) => this.setState({ ba_credit: v })} />
-                    </FormItem>
+  return (
+    <div>
+      <Row gutter={16} style={{ marginBottom: 8 }}>
+        <Col span={24}>
+          <Card>
+            <Row>
+              <Col span={24}>
+                <span style={{ fontSize: 'x-large' }}>{customer.firstname} {customer.lastname}</span><br />
+                <Icon type='phone' /> {customer.phonenumber}<br />
+                <Icon type='mail' /> {customer.email}<br />
+                Balance: {formatCurrency(customer.cashbalance)}<br />
+                Rewards: {customer.rewardbalance}<br />
+                Gift Card: {customer.cardnumber}<br />
+                <span style={{ fontSize: 'x-small', color: 'darkgrey' }}>Created {moment(customer.created_at).format('lll')}</span><br />
+                <span style={{ fontSize: 'x-small', color: 'darkgrey' }}>Updated {moment(customer.updated_at).format('lll')}</span><br />
+                <hr style={{ border: 'none', height: '1px', backgroundColor: '#AAA' }} />
+                <Button onClick={showEditCustomer}>Edit</Button>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+      </Row>
 
-                    <FormItem label='Debit'>
-                      {/* InputNumber doesn't pass events like Input, so we can't set state by name */}
-                      <InputNumber step={1} precision={2} size={10} min={0} value={this.state.ba_debit} onChange={(v) => this.setState({ ba_debit: v })} />
-                    </FormItem>
+      {/*<Row  gutter={16} style={{ marginBottom: 8 }}>
+        <Col span={24}>
+          <Tabs defaultActiveKey='1'>
+            <TabPane tab='Balance adjustment' key='1'>
+              <Card>
+                <Form layout='inline' onFinish={submitBalanceAdjustment}>
 
-                    <FormItem label='Description' required={true} validateStatus={this.state.validateStatus}>
-                      <Input name='ba_description' value={this.state.ba_description} onChange={this.handleChange} />
-                    </FormItem>
+                  <FormItem label='Credit'>
+                    {/* InputNumber doesn't pass events like Input, so we can't set state by name
+                    <InputNumber step={1} precision={2} size={10} min={0} value={this.state.ba_credit} onChange={(v) => this.setState({ ba_credit: v })} />
+                  </FormItem>
 
-                    <FormItem>
-                      <Button htmlType='submit' type='primary'>Submit</Button>
-                    </FormItem>
+                  <FormItem label='Debit'>
+                    {/* InputNumber doesn't pass events like Input, so we can't set state by name
+                    <InputNumber step={1} precision={2} size={10} min={0} value={this.state.ba_debit} onChange={(v) => this.setState({ ba_debit: v })} />
+                  </FormItem>
 
-                  </Form>
-                </Card>
-                <br />
-                <Table columns={this.balanceColumns} dataSource={this.state.transactionHistory} rowKey='id' />
-              </TabPane>
-              <TabPane tab='Reward adjustment' key='2'>
-                <Card>
-                  <Form layout='inline' onSubmit={this.submitRewardAdjustment}>
-                    <FormItem label='Amount'>
-                      <InputNumber step={1} precision={0} size={10} value={this.state.ra_amount} onChange={(v) => this.setState({ ra_amount: v })} />
-                    </FormItem>
-                    <FormItem label='Description'>
-                      <Input disabled placeholder='Temporarily disabled' name='ra_description' value={this.state.ra_description} onChange={this.handleChange}/>
-                    </FormItem>
-                    <FormItem>
-                      <Button htmlType='submit' type='primary'>Submit</Button>
-                    </FormItem>
-                  </Form>
-                </Card>
-                <br />
-                <Table columns={this.rewardColumns} dataSource={this.state.rewardHistory} rowKey='id' />
-              </TabPane>
-            </Tabs>
-          </Col>
-        </Row>
+                  <FormItem label='Description' required={true} validateStatus={this.state.validateStatus}>
+                    <Input name='ba_description' value={this.state.ba_description} onChange={this.handleChange} />
+                  </FormItem>
 
-        <Modal title={'Edit Customer'} visible={this.state.editCustomerVisible} onOk={this.submitEditCustomer} onCancel={this.closeEditCustomer} confirmLoading={this.state.editCustomerInProgress}>
-          <Form onSubmit={this.submitEditCustomer}>
-            <FormItem label='First name'>
-              <Input type='text' name='ce_firstname' value={this.state.ce_firstname} onChange={this.handleChange} />
-            </FormItem>
-            <FormItem label='Last name'>
-              <Input type='text' name='ce_lastname' value={this.state.ce_lastname} onChange={this.handleChange} />
-            </FormItem>
-            <FormItem label='Phone number'>
-              <Input type='text' name='ce_phonenumber' value={this.state.ce_phonenumber} onChange={this.handleChange} />
-            </FormItem>
-            <FormItem label='Email address'>
-              <Input type='email' name='ce_email' value={this.state.ce_email} onChange={this.handleChange} />
-            </FormItem>
-            <FormItem label='Card number'>
-              <Input type='text' name='ce_cardnumber' value={this.state.ce_cardnumber} onChange={this.handleChange} />
-            </FormItem>
-            <FormItem style={{ display: 'none' }}>
-              <Button htmlType='submit'>Submit</Button>
-            </FormItem>
-          </Form>
-        </Modal>
-      </div>
-    )
-  }
+                  <FormItem>
+                    <Button htmlType='submit' type='primary'>Submit</Button>
+                  </FormItem>
+
+                </Form>
+              </Card>
+              <br />
+              <Table columns={this.balanceColumns} dataSource={transactionHistory} rowKey='id' />
+            </TabPane>
+            <TabPane tab='Reward adjustment' key='2'>
+              <Card>
+                <Form layout='inline' onSubmit={this.submitRewardAdjustment}>
+                  <FormItem label='Amount'>
+                    <InputNumber step={1} precision={0} size={10} value={this.state.ra_amount} onChange={(v) => this.setState({ ra_amount: v })} />
+                  </FormItem>
+                  <FormItem label='Description'>
+                    <Input disabled placeholder='Temporarily disabled' name='ra_description' value={this.state.ra_description} onChange={this.handleChange}/>
+                  </FormItem>
+                  <FormItem>
+                    <Button htmlType='submit' type='primary'>Submit</Button>
+                  </FormItem>
+                </Form>
+              </Card>
+              <br />
+              <Table columns={this.rewardColumns} dataSource={this.state.rewardHistory} rowKey='id' />
+            </TabPane>
+          </Tabs>
+        </Col>
+      </Row>
+
+      {/*<Modal title={'Edit Customer'} visible={this.state.editCustomerVisible} onOk={this.submitEditCustomer} onCancel={this.closeEditCustomer} confirmLoading={this.state.editCustomerInProgress}>
+        <Form onSubmit={this.submitEditCustomer}>
+          <FormItem label='First name'>
+            <Input type='text' name='ce_firstname' value={this.state.ce_firstname} onChange={this.handleChange} />
+          </FormItem>
+          <FormItem label='Last name'>
+            <Input type='text' name='ce_lastname' value={this.state.ce_lastname} onChange={this.handleChange} />
+          </FormItem>
+          <FormItem label='Phone number'>
+            <Input type='text' name='ce_phonenumber' value={this.state.ce_phonenumber} onChange={this.handleChange} />
+          </FormItem>
+          <FormItem label='Email address'>
+            <Input type='email' name='ce_email' value={this.state.ce_email} onChange={this.handleChange} />
+          </FormItem>
+          <FormItem label='Card number'>
+            <Input type='text' name='ce_cardnumber' value={this.state.ce_cardnumber} onChange={this.handleChange} />
+          </FormItem>
+          <FormItem style={{ display: 'none' }}>
+            <Button htmlType='submit'>Submit</Button>
+          </FormItem>
+        </Form>
+  </Modal>*/}
+    </div>
+  )
 }
 
 export default CustomerDetail

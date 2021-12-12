@@ -9,15 +9,9 @@ import CardAdd from './CardAdd'
 import Reports from './Reports'
 import SideMenu from './SideMenu'
 import SettingsStoresPage from './SettingsStores'
-import ReactGA from 'react-ga'
 
 import { BrowserRouter as Router, Redirect, Route, Switch, Link } from 'react-router-dom'
 import { Layout } from 'antd'
-import Exception from 'ant-design-pro/lib/Exception'
-
-ReactGA.initialize('255687558')
-ReactGA.pageview(window.location.pathname + window.location.search)
-
 
 
 const { Header, Content, Sider } = Layout
@@ -95,7 +89,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 class NotFound extends Component {
   render() {
     return(
-      <Exception type='404' desc='Sorry, page not found.' actions={<Link to='/'>Return home</Link>}/>
+      <div>Page Not Found</div>
     )
   }
 }

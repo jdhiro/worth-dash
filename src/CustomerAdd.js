@@ -1,115 +1,60 @@
-import React, { Component } from 'react'
-import { message, Form, Input, Icon, Button } from 'antd'
-import { wpost } from './utils/wfetch'
+import React, { useState } from 'react'
+import { message, Form, Input, Button, Typography } from 'antd'
+import ax from './utils/axios'
 
-const FormItem = Form.Item
+const { Title } = Typography
 
-class CustomerAdd extends Component {
+function CustomerAdd(props) {
 
-  state = {
-    submitting: false
-  }
+  const [form] = Form.useForm()
 
-  submitNewCustomer = async (e) => {
-    e.preventDefault()
-    this.setState({ submitting: true })
+  let [submitting, setSubmitting] = useState(false)
 
-    const form = this.props.form
-    let v = null
+  let handleFinish = async values => {
+    console.log(values)
+    const v = {...values}
+    if (v.phonenumber !== undefined) {
+      v.phonenumber = v.phonenumber.replace(/[^0-9]/g,'')
+    }
 
     try {
-      const values = await form.validateFields()
-      v = {...values}
-      if (v.phonenumber !== null) {
-        v.phonenumber = v.phonenumber.replace(/[^0-9]/g,'')
-      }
-    } catch (err) {
-      this.setState({ submitting: false })
-    }
-
-    if (v !== null) {
-      try {
-        const response = await wpost(`/customer`, v)
-        if (!response.ok) {
-            throw Error(response.statusText)
-        }
-        const responseBody = await response.json()
-        this.props.history.push(`/customer/${responseBody.customerid}`)
-      } catch (err) {
-        message.error('There was an error creating the user.')
-        this.setState({ submitting: false })
-      }
+      let response = await ax.post('/customer', v)
+      console.log(response.data)
+      props.history.push(`/customer/${response.data.id}`)
+    } catch(e) {
+      message.error('There was an error creating the user.')
+      setSubmitting(false)
     }
   }
 
-  render() {
-    const { getFieldDecorator } = this.props.form
-    return (
-      <div>
-        <h1>Add customer</h1>
-        <Form onSubmit={this.submitNewCustomer} className='login-form'>
-          <FormItem>
-            {getFieldDecorator('firstname', {
-              rules: [{
-                required: true,
-                pattern: /^[A-z-']+$/,
-                message: 'Please enter a first name.',
-                whitespace: true
-              }],
-            })(
-              <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="First name" />
-            )}
-          </FormItem>
+  return (
+    <div>
+      <Title>Add customer</Title>
+      <Form onFinish={handleFinish} className='login-form' layout="vertical">
+        
+        <Form.Item label="First name" name="firstname" rules={[{ required: true, pattern: /^[A-z-']+$/, message: 'Please enter a first name.', whitespace: true }]}>
+            <Input />
+        </Form.Item>
 
-          <FormItem>
-            {getFieldDecorator('lastname', {
-              rules: [{
-                required: true,
-                pattern: /^[A-z-']+$/,
-                message: 'Please enter a last name.',
-                whitespace: true
-              }],
-            })(
-              <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Last name" />
-            )}
-          </FormItem>
+        <Form.Item label="Last name" name="lastname" rules={[{ required: true, pattern: /^[A-z-']+$/, message: 'Please enter a last name.', whitespace: true }]}>
+            <Input />
+        </Form.Item>
 
-          <FormItem>
-            {getFieldDecorator('phonenumber', {
-              rules: [{
-                required: false,
-                type: 'string',
-                pattern: /^[0-9-]+$/,
-                message: 'Please enter a valid phone number.'
-              }],
-              initialValue: null
-            })(
-              <Input prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Phone number" />
-            )}
-          </FormItem>
+        <Form.Item label="Phone number" name="phonenumber" rules={[{ required: false, type: 'string', pattern: /^[0-9-]+$/, message: 'Please enter a valid phone number.' }]}>
+            <Input />
+        </Form.Item>
 
-          <FormItem>
-            {getFieldDecorator('email', {
-              rules: [{
-                required: false,
-                type: 'email',
-                message: 'Please enter a valid email.'
-              }],
-              initialValue: null
-            })(
-              <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Email" />
-            )}
-          </FormItem>
+        <Form.Item label="Email address" name="email" rules={[{ required: false, type: 'email', message: 'Please enter a valid email.' }]}>
+            <Input />
+        </Form.Item>
 
-          <FormItem>
-            <Button type="primary" htmlType="submit" className="login-form-button" loading={this.state.submitting}>
-              Submit
-            </Button>
-          </FormItem>
-        </Form>
-      </div>
-    )
-  }
+        <Form.Item>
+          <Button type="primary" htmlType="submit" className="login-form-button" loading={submitting}>Submit</Button>
+        </Form.Item>
+      </Form>
+    </div>
+  )
+
 }
 
-export default Form.create()(CustomerAdd)
+export default CustomerAdd
