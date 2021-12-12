@@ -1,7 +1,15 @@
 import axios from 'axios'
 
+let baseURL = 'http://localhost:8081'
+
+if (process.env.NODE_ENV === 'production') {
+  baseURL = 'https://api.wrth.io'
+} else {
+  baseURL = 'http://localhost:8081'
+}
+
 const ax = axios.create({
-  baseURL: 'http://localhost:8081',
+  baseURL,
   headers: {'Accept': 'application/json', 'Content-Type': 'application/json; charset=utf-8'}
 })
 

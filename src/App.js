@@ -36,7 +36,7 @@ class Main extends Component {
     return(
 
       <Layout style={{height: '100vmin'}}>
-        {/*<Header style={{backgroundColor: '#DDD'}}><h2>Worth</h2></Header>*/}
+        <Header><div className="logo">Urban Coffee Lounge</div></Header>
         <Layout>
           <Sider theme='light' style={{height: '100%'}}>
             <SideMenu />

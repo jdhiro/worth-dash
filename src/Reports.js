@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, DatePicker, Table } from 'antd'
+import { Button, DatePicker, Table, Typography } from 'antd'
 import { wfetch, ResponseError } from './utils/wfetch'
 import { saveAs } from 'file-saver'
 import moment from 'moment'
 import { DateTime } from 'luxon'
+
+const { Title } = Typography
 
 const { RangePicker } = DatePicker
 
@@ -89,7 +91,7 @@ class Reports extends Component {
     }
     return (
       <div>
-      <h1>Reports</h1>
+      <Title>Reports</Title>
         <div>
           <RangePicker allowClear='true' ranges={ranges} onChange={this.onDateRangeChanged} />
         </div>
