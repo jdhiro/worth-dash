@@ -1,2 +1,6 @@
 @import '~antd/dist/antd.css';
-@import '~ant-design-pro/dist/ant-design-pro.css';
+
+.logo {
+    color: white;
+    font-size: larger;
+}

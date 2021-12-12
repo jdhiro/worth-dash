@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Layout, Menu, Icon } from 'antd'
+import { Layout, Menu } from 'antd'
+import { Icon } from '@ant-design/compatible'
 
 const SubMenu = Menu.SubMenu
 
