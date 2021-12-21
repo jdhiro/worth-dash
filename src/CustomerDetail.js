@@ -86,7 +86,7 @@ function CustomerDetail(props) {
 
   const handleEditCustomer = async values => {
     setWorking(true)
-    const body = { ...values, cardnumber: customer.cardnumber }
+    const body = { ...values }
     try {
       const response = await ax.put(`/customer/${id}`, body)
       setCustomer(response.data)
@@ -190,12 +190,16 @@ function CustomerDetail(props) {
             <Input type='text' />
           </Form.Item>
 
-          <Form.Item label="Phone number" name="phonenumber" initialValue={customer.phonenumber} rules={[{ required: true, type: 'string', pattern: /^[0-9-]+$/, message: 'Please enter a valid phone number.' }]}>
+          <Form.Item label="Phone number" name="phonenumber" initialValue={customer.phonenumber} rules={[{ required: false, type: 'string', pattern: /^[0-9-]+$/, message: 'Please enter a valid phone number.' }]}>
             <Input type='text' />
           </Form.Item>
 
           <Form.Item label="Email address" name="email" initialValue={customer.email} rules={[{ required: false, type: 'email', message: 'Please enter a valid email.' }]}>
             <Input type='email' />
+          </Form.Item>
+
+          <Form.Item label="Card number" name="cardnumber" initialValue={customer.cardnumber} rules={[{ required: false, type: 'string', message: 'Please enter a valid card nuber.' }]}>
+            <Input type='text' />
           </Form.Item>
 
           <Form.Item>
