@@ -5,6 +5,8 @@ if (process.env.NODE_ENV === 'production') {
   baseUrl = 'http://localhost:8081'
 }
 
+baseUrl = 'https://worth-server-rwc6j.ondigitalocean.app/api'
+
 let token = null
 
 class NetworkError extends Error {}

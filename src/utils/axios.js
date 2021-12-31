@@ -8,6 +8,8 @@ if (process.env.NODE_ENV === 'production') {
   baseURL = 'http://localhost:8081'
 }
 
+baseURL = 'https://worth-server-rwc6j.ondigitalocean.app/api'
+
 const ax = axios.create({
   baseURL,
   headers: {'Accept': 'application/json', 'Content-Type': 'application/json; charset=utf-8'}
