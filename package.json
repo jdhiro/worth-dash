@@ -2,6 +2,7 @@
   "name": "worth-dash",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@ant-design/compatible": "^1.1.0",
     "@ant-design/icons": "^4.7.0",
