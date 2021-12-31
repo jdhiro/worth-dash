@@ -10,7 +10,7 @@ import Reports from './Reports'
 import SideMenu from './SideMenu'
 import SettingsStoresPage from './SettingsStores'
 
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import { Layout } from 'antd'
 
 
@@ -20,7 +20,7 @@ class App extends Component {
   render() {
     return (
       <ErrorBoundary>
-        <Router basename="/app">
+        <Router>
           <Switch>
             <Route path='/login' component={Login} />
             <Main />
