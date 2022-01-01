@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === 'production') {
   baseUrl = 'http://localhost:8081'
 }
 
-baseUrl = 'https://worth-server-rwc6j.ondigitalocean.app/api'
+baseUrl = 'https://worth-server-k9njp.ondigitalocean.app'
 
 let token = null
 
