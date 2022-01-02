@@ -1,14 +1,6 @@
 import axios from 'axios'
 
-let baseURL = 'http://localhost:8081'
-
-if (process.env.NODE_ENV === 'production') {
-  baseURL = 'https://api.wrth.io'
-} else {
-  baseURL = 'http://localhost:8081'
-}
-
-baseURL = 'https://worth-server-k9njp.ondigitalocean.app'
+let baseUrl = (process.env.NODE_ENV === 'production') ? 'https://api.wrth.io' : 'http://localhost:8081'
 
 const ax = axios.create({
   baseURL,

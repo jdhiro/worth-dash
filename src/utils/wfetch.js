@@ -1,11 +1,4 @@
-let baseUrl = ''
-if (process.env.NODE_ENV === 'production') {
-  baseUrl = 'https://api.wrth.io'
-} else {
-  baseUrl = 'http://localhost:8081'
-}
-
-baseUrl = 'https://worth-server-k9njp.ondigitalocean.app'
+let baseUrl = (process.env.NODE_ENV === 'production') ? 'https://api.wrth.io' : 'http://localhost:8081'
 
 let token = null
 
