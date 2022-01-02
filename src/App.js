@@ -13,6 +13,7 @@ import SettingsStoresPage from './SettingsStores'
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import { Layout } from 'antd'
 
+console.log("ENV: " + process.env.NODE_ENV)
 
 const { Header, Content, Sider } = Layout
 
