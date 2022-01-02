@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-let baseUrl = 'https://api.wrth.io'
+let baseURL = 'https://api.wrth.io'
 
 const ax = axios.create({
-  baseUrl,
+  baseURL,
   headers: {'Accept': 'application/json', 'Content-Type': 'application/json; charset=utf-8'}
 })
 
