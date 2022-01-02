@@ -10,7 +10,7 @@ import Reports from './Reports'
 import SideMenu from './SideMenu'
 import SettingsStoresPage from './SettingsStores'
 
-import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import { Layout } from 'antd'
 
 
