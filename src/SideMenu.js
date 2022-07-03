@@ -1,61 +1,56 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { Layout, Menu } from 'antd'
+import { withRouter, useLocation, useHistory } from 'react-router-dom'
+import { Menu } from 'antd'
 import { Icon } from '@ant-design/compatible'
 
-const SubMenu = Menu.SubMenu
+export default function() {
+  let location = useLocation()
+  let history = useHistory()
 
-class SideMenu extends Component {
+  let keyActions = {
+    'search': (k) => history.push(`/${k}`),
 
-  push = this.props.history.push
-  keyActions = {
-    'search': (k) => this.push(`/${k}`),
+    'customer-search': (k) => history.push(`/${k}`),
+    'customer-add': (k) => history.push(`/${k}`),
 
-    'customer-search': (k) => this.push(`/${k}`),
-    'customer-add': (k) => this.push(`/${k}`),
+    'card-search': (k) => history.push(`/${k}`),
+    'card-add': (k) => history.push(`/${k}`),
+    'card-add-bulk': (k) => history.push(`/${k}`),
 
-    'card-search': (k) => this.push(`/${k}`),
-    'card-add': (k) => this.push(`/${k}`),
-    'card-add-bulk': (k) => this.push(`/${k}`),
+    'analytics': (k) => history.push(`/${k}`),
 
-    'analytics': (k) => this.push(`/${k}`),
+    'reports': (k) => history.push(`/${k}`),
 
-    'reports': (k) => this.push(`/${k}`),
-
-    'settings-stores': (k) => this.push(`/${k}`),
+    'settings-stores': (k) => history.push(`/${k}`),
     'settings-logout': () => {
       sessionStorage.removeItem('token')
-      this.props.history.push('/login')
+      history.push('/login')
     },
   }
 
-  handleClick = ({ key }) => {
-    this.keyActions[key](key)
+  let handleClick = ({ key }) => {
+    keyActions[key](key)
   }
 
-  getLocationKey = () => {
-    const match = this.props.location.pathname.match(/[a-z-]+/)
+  let getLocationKey = () => {
+    const match = location.pathname.match(/[a-z-]+/)
     return match ? [match[0]] : []
   }
 
-  render() {
-    return (
-      <Menu
-        style={{height: '100%', paddingTop: '24px'}}
-        defaultOpenKeys={['customer', 'card', 'settings']}
-        defaultSelectedKeys={this.getLocationKey()}
-        mode='inline' onClick={this.handleClick}
-        >
-        <Menu.Item key='customer-search'><Icon type='search' /> Search</Menu.Item>
-        <Menu.Item key='customer-add'><Icon type='user-add' /> Add customer</Menu.Item>
-        <Menu.Item key='card-add'><Icon type='credit-card' /> Add card</Menu.Item>
-        <Menu.Item key='reports'><span><Icon type='solution' /><span>Reports</span></span></Menu.Item>
-        <Menu.Item key='settings-stores'><Icon type='setting' /> Manage stores</Menu.Item>
-        <Menu.Item key='settings-logout'><Icon type='logout' /> Sign out</Menu.Item>
-      </Menu>
-    )
-  }
+  return (
+    <Menu
+      style={{height: '100%', paddingTop: '24px'}}
+      defaultOpenKeys={['customer', 'card', 'settings']}
+      defaultSelectedKeys={getLocationKey()}
+      mode='inline' onClick={handleClick}
+      >
+      <Menu.Item key='customer-search'><Icon type='search' /> Search</Menu.Item>
+      <Menu.Item key='customer-add'><Icon type='user-add' /> Add customer</Menu.Item>
+      <Menu.Item key='card-add'><Icon type='credit-card' /> Add card</Menu.Item>
+      <Menu.Item key='reports'><span><Icon type='solution' /><span>Reports</span></span></Menu.Item>
+      <Menu.Item key='settings-stores'><Icon type='setting' /> Manage stores</Menu.Item>
+      <Menu.Item key='settings-logout'><Icon type='logout' /> Sign out</Menu.Item>
+    </Menu>
+  )
 
 }
-
-export default withRouter(SideMenu)

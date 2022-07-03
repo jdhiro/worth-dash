@@ -23,7 +23,9 @@ class App extends Component {
       <ErrorBoundary>
         <Router>
           <Switch>
-            <Route path='/login' component={Login} />
+            <Route path='/login'>
+              <Login />
+            </Route>
             <Main />
           </Switch>
         </Router>
@@ -45,14 +47,29 @@ class Main extends Component {
           <Layout style={{ padding: '24px' }}>
             <Content>
               <Switch>
-                <PrivateRoute path='/search' component={CustomerSearch} />
-                <PrivateRoute path='/customer-search' component={CustomerSearch} />
-                <PrivateRoute path='/customer-add' component={CustomerAdd} />
-                <PrivateRoute path='/customer/:id' component={CustomerDetail} />
-                <PrivateRoute path='/card-add' component={CardAdd} />
-                <PrivateRoute path='/reports' component={Reports} />
-                <PrivateRoute path='/settings-stores' component={SettingsStoresPage}/>
-                <Redirect exact to='/search' />
+                <PrivateRoute path='/search'>
+                  <CustomerSearch/>
+                </PrivateRoute>
+                <PrivateRoute path='/customer-search'>
+                  <CustomerSearch/>
+                </PrivateRoute>
+                <PrivateRoute path='/customer-add'>
+                  <CustomerAdd/>
+                </PrivateRoute>
+                <PrivateRoute path='/customer/:id'>
+                  <CustomerDetail/>
+                </PrivateRoute>
+                <PrivateRoute path='/card-add'>
+                  <CardAdd/>
+                </PrivateRoute>
+                <PrivateRoute path='/reports'>
+                  <Reports/>
+                </PrivateRoute>
+                <PrivateRoute path='/settings-stores'>
+                  <SettingsStoresPage/>
+                </PrivateRoute>
+                <Redirect exact to='/search'>
+                </Redirect>
               </Switch>
             </Content>
           </Layout>
