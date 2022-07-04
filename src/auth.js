@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { CustomerSearch, CustomerAdd, CustomerDetail, CardAdd, LoginPage, Reports, SideMenu, SettingsStoresPage } from './components'
-import { BrowserRouter, Routes, Route, Outlet, Navigate, useNavigate, useLocation } from 'react-router-dom'
-import { Layout, Button, Card, Col, Form, Input, Row } from 'antd'
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import React from 'react'
+import { Outlet, Navigate, useLocation } from 'react-router-dom'
 import http from './utils/http'
-
 
 /**
  * Create a standard auth login/logout implimentation. There is no React code here.

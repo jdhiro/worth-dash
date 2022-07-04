@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { CustomerSearch, CustomerAdd, CustomerDetail, CardAdd, LoginPage, LogoutPage, Reports, SideMenu, SettingsStoresPage } from '.'
+import { Customers, Cards, CustomerAdd, CustomerDetail, CardAdd, LoginPage, LogoutPage, Reports, SideMenu, SettingsStoresPage } from '.'
 import { BrowserRouter, Routes, Route, Outlet, useNavigate } from 'react-router-dom'
 import { Layout } from 'antd'
 import { AuthProvider, RequireAuth, useAuth } from '../auth'
@@ -36,7 +36,8 @@ export default function App() {
           <Route path="/logout" element={<LogoutPage />} />
           <Route element={<RequireAuth />}>
             <Route element={<Main />}>
-              <Route path='customer' element={<CustomerSearch/>} />
+              <Route path='customer' element={<Customers/>} />
+              <Route path='card' element={<Cards/>} />
               <Route path='customer/:id' element={<CustomerDetail/>} />
               <Route path='customer-add' element={<CustomerAdd/>} />
               <Route path='card-add' element={<CardAdd/>} />

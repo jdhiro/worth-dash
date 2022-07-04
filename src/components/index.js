@@ -1,4 +1,5 @@
-import CustomerSearch from './CustomerSearch'
+import Customers from './Customers'
+import Cards from './Cards'
 import CustomerAdd from './CustomerAdd'
 import CustomerDetail from './CustomerDetail'
 import CardAdd from './CardAdd'
@@ -8,4 +9,4 @@ import SettingsStoresPage from './SettingsStores'
 import LoginPage from './LoginPage'
 import LogoutPage from './LogoutPage'
 
-export {CustomerSearch, CustomerAdd, CustomerDetail, CardAdd, LoginPage, LogoutPage, Reports, SideMenu, SettingsStoresPage}
+export {Customers, Cards, CustomerAdd, CustomerDetail, CardAdd, LoginPage, LogoutPage, Reports, SideMenu, SettingsStoresPage}

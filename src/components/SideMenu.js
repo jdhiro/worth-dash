@@ -12,7 +12,8 @@ export default function() {
   const items = [
     { label: 'Customers', key: 'customer' },
     { label: 'Add Customer', key: 'customer-add' },
-    { label: 'Add Card', key: 'card-add' },
+    { label: 'Cards', key: 'card' },
+    { label: 'Bulk Add Cards', key: 'card-add' },
     { label: 'Reports', key: 'reports' },
     { label: 'Manage Stores', key: 'settings-stores' },
     { label: 'Sign Out', key: 'logout' },
