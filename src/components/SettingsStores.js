@@ -1,5 +1,5 @@
 import React from 'react'
-import { wfetch, NetworkError, ResponseError } from './utils/wfetch'
+import { wfetch, NetworkError, ResponseError } from '../utils/wfetch'
 import { Button, Form, Input, Table, Modal, message } from 'antd'
 
 export default class SettingsStoresPage extends React.Component {

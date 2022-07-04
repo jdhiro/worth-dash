@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { message, Form, Input, Button, Typography } from 'antd'
-import ax from './utils/axios'
+import http from '../utils/http'
 
 const { Title } = Typography
 
@@ -18,7 +18,7 @@ function CustomerAdd(props) {
     }
 
     try {
-      let response = await ax.post('/customer', v)
+      let response = await http.post('/customer', v)
       console.log(response.data)
       props.history.push(`/customer/${response.data.id}`)
     } catch(e) {

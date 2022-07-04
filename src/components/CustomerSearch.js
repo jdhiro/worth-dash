@@ -1,7 +1,6 @@
-import * as Sentry from '@sentry/browser'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { wfetch, NetworkError, ResponseError } from './utils/wfetch'
+import { wfetch, NetworkError, ResponseError } from '../utils/wfetch'
 import { Alert, message, Table, Input, Typography } from 'antd'
 const { Search } = Input
 
@@ -19,7 +18,7 @@ function CustomerSearch(props) {
     { title: 'Phone', dataIndex: 'phonenumber' },
     { title: 'Action', key: 'action', render: (text, record) => (
       <span>
-        <Link to={'customer/' + record.id}>View details</Link>
+        <Link to={'/customer/' + record.id}>View details</Link>
       </span>
     )}
   ]
@@ -43,7 +42,6 @@ function CustomerSearch(props) {
       } else if (err instanceof NetworkError) {
         message.info('Network error, please check your connection.', 5)
       }
-      Sentry.captureException(err)
     }
   }
 

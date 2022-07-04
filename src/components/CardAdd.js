@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Form, Input, InputNumber, Modal, Typography  } from 'antd'
-import { wpost } from './utils/wfetch'
-import ax from './utils/axios'
+import http from '../utils/http'
 
 const { Title } = Typography
 const { TextArea } = Input
@@ -42,7 +41,7 @@ function CardAdd(props) {
     let amount = parseInt(values.amount) * 100
 
     try {
-      let response = await ax.post('/card', {cards, amount})
+      let response = await http.post('/card', {cards, amount})
       success(response.data.insertSuccess.length, response.data.insertError.length)
     } catch (e) {
       error()

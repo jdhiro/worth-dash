@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, DatePicker, Table, Typography } from 'antd'
-import { wfetch, ResponseError } from './utils/wfetch'
+import { wfetch, ResponseError } from '../utils/wfetch'
 import { saveAs } from 'file-saver'
 import moment from 'moment'
 import { DateTime } from 'luxon'
@@ -43,7 +43,7 @@ class Reports extends Component {
       onFilter: (value, record) => record.createdby.indexOf(value) === 0,
     },
     { title: 'Customer', dataIndex: 'customerid', render: (text, record) => (
-      <Link to={'customer/' + record.customerid}>{text}</Link>
+      <Link to={'/customer/' + record.customerid}>{text}</Link>
     ) },
     { title: 'Description', dataIndex: 'description' }
   ]

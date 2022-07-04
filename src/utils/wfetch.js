@@ -14,8 +14,9 @@ class ResponseError extends Error {
 }
 
 function getHeaders() {
+  //console.log('W')
   if (token === null) {
-    token = sessionStorage.getItem('token')
+    token = localStorage.getItem('token')
   }
   return {
     'Accept': 'application/json',

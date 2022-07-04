@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { wfetch, wget, wpost, wput } from './utils/wfetch'
+import { wget } from '../utils/wfetch'
 import moment from 'moment'
 import { message, Row, Col, Button, Card, Form, Input, InputNumber, Modal, Table, Tabs } from 'antd'
 import { useParams } from "react-router-dom"
-import { Icon } from '@ant-design/compatible'
-import ax from './utils/axios'
+import http from '../utils/http'
 const TabPane = Tabs.TabPane
 const FormItem = Form.Item
 
@@ -88,7 +87,7 @@ function CustomerDetail(props) {
     setWorking(true)
     const body = { ...values }
     try {
-      const response = await ax.put(`/customer/${id}`, body)
+      const response = await http.put(`/customer/${id}`, body)
       setCustomer(response.data)
       closeModals()
       message.success('User updated.')
@@ -107,7 +106,7 @@ function CustomerDetail(props) {
     const body = {...v, customerid: id}
 
     try {
-      let response = await ax.post('/transaction', body)
+      let response = await http.post('/transaction', body)
       setCustomer(response.data)
       closeModals()
       message.success('Balance adjustment successful.')
@@ -126,7 +125,7 @@ function CustomerDetail(props) {
     const body = {...v, customerid: id}
     try {
       // Execute the web service call to update the customer
-      const response = await ax.post('/transaction/reward', body)
+      const response = await http.post('/transaction/reward', body)
       setCustomer(response.data)
       closeModals()
       message.success('Reward adjustment successful.')
