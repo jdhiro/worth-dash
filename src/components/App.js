@@ -45,6 +45,7 @@ export default function App() {
               <Route path='settings-stores' element={<SettingsStoresPage/>} />
             </Route>
           </Route>
+          <Route path="/" element={<LoginPage />} />
           <Route path="*" element={<p>There's nothing here!</p>} />
         </Routes>
       </BrowserRouter>
