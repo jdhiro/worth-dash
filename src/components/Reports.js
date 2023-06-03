@@ -54,10 +54,10 @@ class Reports extends Component {
       if (!response.ok) {
         throw new ResponseError('', response)
       } else {
-        this.state.currentDateStrings = dateStrings
+        this.setState({ currentDateStrings: dateStrings })
         let json = await response.json()
         this.setState({ results: json })
-        if (this.state.results.length === 0) this.setState({currentDateStrings: null})
+        if (json === 0) this.setState({currentDateStrings: null})
       }
     } catch (err) {
       // TODO: Better error handling.
